@@ -18,6 +18,4 @@ mix.js('resources/js/app.js', 'public/js')
         processCssUrls: false,
         postCss: [
             tailwindcss('./tailwind.config.js'),
-            //...process.env.NODE_ENV === 'production' ? [purgecss] : []
-            //purgecss
         ]});
