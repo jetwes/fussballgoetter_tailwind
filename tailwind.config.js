@@ -1,11 +1,14 @@
+const { colors } = require('tailwindcss/defaultTheme')
 module.exports = {
-    purge: [
-        './src/**/*.html',
-        './src/**/*.vue',
-        './src/**/*.jsx',
-    ],
+
   theme: {
-    extend: {},
+      colors: {
+          black: colors.black,
+          white: colors.white,
+          red: colors.red,
+          green: colors.green,
+          indigo: colors.indigo,
+      }
   },
   variants: {},
   plugins: [ require('@tailwindcss/ui'),],
