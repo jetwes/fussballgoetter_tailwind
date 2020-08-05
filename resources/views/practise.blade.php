@@ -79,9 +79,9 @@
                             @if($practise)
                                 @foreach($practise->participations as $participator)
                                     <tr class="@if($loop->even) bg-white @else bg-gray-50 @endif">
-                                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">{{ $participator->user->name }}</td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">@if($participator->participate) X @endif</td>
-                                        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">@if(!$participator->participate) X @endif</td>
+                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">{{ $participator->user->name }}</td>
+                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">@if($participator->participate) X @endif</td>
+                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">@if(!$participator->participate) X @endif</td>
                                     </tr>
                                 @endforeach
                             @endif
