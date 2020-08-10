@@ -236,14 +236,27 @@
 
                 @if($practise)
                     <div class="mt-2">
-                        <h3 class="mb-4">Meine Auswahl: <a href="{{ route('participate',['id' => $practise->id,'participate' => 1]) }}"><button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">JA</button></a>&nbsp;
-                        <a href="{{ route('participate',['id' => $practise->id,'participate' => 0]) }}"><button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">NEIN</button></a>
+                        <div class="grid grid-cols-2">
+                            <h3 class="mb-4 col-span-1">Meine Auswahl:</h3>
+                            <div class="col-span-1">
+                            <a href="{{ route('participate',['id' => $practise->id,'participate' => 1]) }}"><button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">JA</button></a>&nbsp;
+                                <a href="{{ route('participate',['id' => $practise->id,'participate' => 0]) }}"><button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">NEIN</button></a>
 
-                            @if(\App\Draw::where('practise_id',$practise->id)->first())
-                                <a target="_blank" href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">Auslosung anzeigen!</button></strong></a>
+                                @if(\App\Draw::where('practise_id',$practise->id)->first())
+                                    <a target="_blank" href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">Auslosung anzeigen!</button></strong></a>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-2 mt-4">
+                            @if(!$beer)
+                                <h3 class="mb-4 col-span-1">Ich bringe Bier mit:</h3>
+                                <a class="col-span-1" href="{{ route('participate',['id' => $practise->id,'beer' => 1]) }}"><button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">JA</button></a>&nbsp;</h3>
+                            @else
+                                <h3 class="col-span-2">Danke an <strong> {{ $beer->user->name }}</strong>! {{ $beer->user->name }} bringt Bier mit!</h3>
                             @endif
+                        </div>
 
-                        </h3>
                     </div>
                 @endif
             </div>

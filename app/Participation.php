@@ -19,7 +19,8 @@ class Participation extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'participate' => 'boolean'
+        'participate' => 'boolean',
+        'beer'       => 'boolean'
     ];
 
 

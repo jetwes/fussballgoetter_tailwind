@@ -49,7 +49,22 @@ class ParticipationController extends Controller
                 ]);
             }
         }
-        $practise = Practise::where('id', '=', $id)->with('Participations')->first();
+        if ($request->has('beer')) {
+            $participation = Participation::where('user_id', '=', Auth::user()->id)->where('practise_id','=',$id)->first();
+            if ($participation) {
+                $participation->beer = true;
+                $participation->save();
+            } else {
+                Participation::create([
+                    'user_id' => Auth::user()->id,
+                    'practise_id' => $id,
+                    'participate' => $request->get('participate'),
+                    'beer'        => true,
+                ]);
+            }
+        }
+        $practise = Practise::where('id', '=', $id)->with(['participations','participators','participations.user'])->first();
+        $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
         $birthdays = User::whereNotNull('birthday')->get();
         foreach($birthdays as $key => $birthday) {
             if ($birthday->birthday && !$birthday->birthday->isBirthday()) {
@@ -59,7 +74,7 @@ class ParticipationController extends Controller
                     unset($birthdays[$key]);
             }
         }
-        return view('practise', compact('practise','birthdays'));
+        return view('practise', compact('practise','birthdays','beer'));
     }
 
     /**
@@ -93,7 +108,7 @@ class ParticipationController extends Controller
             $tile = round(count($shuffle) / 3, 0); // split into 3 teams
         else
             $tile = round(count($shuffle) / 2, 0); // split into 2 teams
-       
+
         $teams = array_chunk($shuffle, $tile);
         $teamA = '';
         $teamB = '';
