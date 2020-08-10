@@ -61,9 +61,6 @@
       Open: "block", closed: "hidden"
     -->
     <div class="md:hidden"  x-show="sidebarOpen" @click="sidebarOpen = false" >
-        <div class="px-2 pt-2 pb-3 sm:px-3">
-            <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700">Dashboard</a>
-        </div>
         <div class="pt-4 pb-3 border-t border-gray-700">
             <div class="flex items-center px-5">
                 <div class="flex-shrink-0">
