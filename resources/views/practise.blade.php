@@ -7,7 +7,7 @@
 @section('content')
     <div class="md:w-1/2 sm:w-full sm:mx-auto md:mx-auto">
         <div class="">
-            <div class="font-medium text-lg text-gray bg-brand px-3 py-2 rounded-t">
+            <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t">
                 @if($practise){{ $practise->date_of_practise->subMinutes(30)->format('d.m.Y H:i') }} Uhr @endif
                 <h2>Aktuell wird OPEN AIR am Meiningser Weg gespielt.</h2>
                 <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
@@ -265,14 +265,14 @@
                     <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg">
                         <table class="min-w-full">
                             <thead>
-                            <tr>
-                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                            <tr class="border-b border-gray-700">
+                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider">
                                     Name
                                 </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider">
                                     Ja
                                 </th>
-                                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider">
                                     Nein
                                 </th>
                             </tr>

@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <a href="/"><img class="h-16 w-20 float-left" src="/img/logo_fussballgoetter_wide.png" alt="Fussballgötter"></a>
+                    <a href="/"><img class="h-16 float-left" src="/img/logo_fussballgoetter_wide.png" alt="Fussballgötter"></a>
                 </div>
             </div>
             <div class="hidden md:block">
