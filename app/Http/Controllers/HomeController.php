@@ -34,7 +34,8 @@ class HomeController extends Controller
     public function index()
     {
         $german_days = $this->german_days;
-        $practise = Practise::where('date_of_practise','>=',Carbon::now())->orderBy('date_of_practise','ASC')->with('Participations')->with('Participators')->with('Cancellations')->limit(1)->first();
+        $practise = Practise::where('date_of_practise','>=',Carbon::now())->orderBy('date_of_practise','ASC')->with(['participations','participations.user','participators','cancellations'])->limit(1)->first();
+        //dd($practise);
         $birthdays = User::whereNotNull('birthday')->get();
         foreach($birthdays as $key => $birthday) {
             if ($birthday->birthday && !$birthday->birthday->isBirthday()) {
