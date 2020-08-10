@@ -1,14 +1,9 @@
-<nav class="bg-gray-800">
+<nav class="bg-white shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-16">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <img class="h-8 w-8 float-left" src="https://tailwindui.com/img/logos/workflow-mark-on-dark.svg" alt="Fussballgötter"> <h2 class="pl-4 text-xl text-white float-right">Fussballgötter</h2>
-                </div>
-                <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline">
-                        <a href="{{ route('home') }}" class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700">Dashboard</a>
-                    </div>
+                    <a href="/"><img class="h-12 w-16 float-left" src="/img/logo_fussballgoetter_wide.png" alt="Fussballgötter"></a>
                 </div>
             </div>
             <div class="hidden md:block">

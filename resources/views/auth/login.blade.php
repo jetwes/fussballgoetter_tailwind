@@ -3,8 +3,7 @@
 @section('content')
     <div class="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-md">
-            <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-on-white.svg" alt="Workflow">
-            <h1 class="mt-2 text-center text-4xl leading-9 font-extrabold text-indigo-500">Die Fussballgötter</h1>
+            <img style="height: 10rem;" class="mx-auto w-auto" src="/img/logo_fussballgoetter_mid.png" alt="Fussballgötter">
             <h2 class="mt-6 text-center text-3xl leading-9 font-extrabold text-gray-900">
                 In deinem Account anmelden
             </h2>
