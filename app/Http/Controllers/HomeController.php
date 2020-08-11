@@ -36,7 +36,9 @@ class HomeController extends Controller
     {
         $german_days = $this->german_days;
         $practise = Practise::where('date_of_practise','>=',Carbon::now())->orderBy('date_of_practise','ASC')->with(['participations','participations.user','participators','cancellations'])->limit(1)->first();
-        $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
+        if ($practise)
+            $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
+        else $beer = null;
         //dd($practise);
         $birthdays = User::whereNotNull('birthday')->get();
         foreach($birthdays as $key => $birthday) {

@@ -64,7 +64,9 @@ class ParticipationController extends Controller
             }
         }
         $practise = Practise::where('id', '=', $id)->with(['participations','participators','participations.user'])->first();
-        $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
+        if ($practise)
+            $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
+        else $beer = null;
         $birthdays = User::whereNotNull('birthday')->get();
         foreach($birthdays as $key => $birthday) {
             if ($birthday->birthday && !$birthday->birthday->isBirthday()) {
