@@ -36,6 +36,11 @@ class HomeController extends Controller
     {
         $german_days = $this->german_days;
         $practise = Practise::where('date_of_practise','>=',Carbon::now())->orderBy('date_of_practise','ASC')->with(['participations','participations.user','participators','cancellations'])->limit(1)->first();
+        if (!$practise)
+            $practise = Practise::create([
+                'name'              => 'Montagstruppe',
+                'date_of_practise'  => Carbon::now()->startOfWeek()->addWeek()->setTime(19,00,00)
+            ]);
         if ($practise)
             $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
         else $beer = null;

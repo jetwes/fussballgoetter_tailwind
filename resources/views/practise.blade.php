@@ -10,7 +10,7 @@
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t">
                 @if($practise){{ $practise->date_of_practise->subMinutes(30)->format('d.m.Y H:i') }} Uhr @endif
                 <h2>Aktuell wird OPEN AIR am Meiningser Weg gespielt.</h2>
-                <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
+                @if($practise)<h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3> @endif
             </div>
 
             @if($birthdays->count() > 0)
@@ -290,8 +290,10 @@
                             </tbody>
                         </table>
                     </div>
-                    @if((\Auth::user()->name == 'T-Man' || \Auth::user()->name == 'Übungsleiter') && !\App\Draw::where('practise_id',$practise->id)->first() && (\Carbon\Carbon::now() >= $practise->date_of_practise->subHours(3)))
-                        <a target="_blank" class="mt-8" href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">Teams losen - Achtung nur 1 mal möglich!</button></strong></a>
+                    @if($practise)
+                        @if((\Auth::user()->name == 'T-Man' || \Auth::user()->name == 'Übungsleiter') && !\App\Draw::where('practise_id',$practise->id)->first() && (\Carbon\Carbon::now() >= $practise->date_of_practise->subHours(3)))
+                            <a target="_blank" class="mt-8" href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">Teams losen - Achtung nur 1 mal möglich!</button></strong></a>
+                        @endif
                     @endif
                 </div>
             </div>
