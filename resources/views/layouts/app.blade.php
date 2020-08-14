@@ -33,5 +33,6 @@
         const el = document.createElement('pwa-update');
         document.body.appendChild(el);
     </script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js"></script>
 </body>
 </html>
