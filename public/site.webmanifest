@@ -1,14 +1,19 @@
 {
     "name": "Fussballgötter",
-    "short_name": "",
+    "short_name": "Fussballgötter",
     "icons": [
         {
-            "src": "/img/logo_fussballgoetter_mid.png",
+            "src": "https://fussballgoetter.twesmann.de/img/logo_fussballgoetter_mid.png",
             "sizes": "192x192",
             "type": "image/png"
         }
     ],
     "theme_color": "#ffffff",
     "background_color": "#ffffff",
-    "display": "standalone"
+    "display": "standalone",
+    "start_url": "https://fussballgoetter.twesmann.de/",
+    "url": "https://fussballgoetter.twesmann.de",
+    "lang": "German",
+    "screenshots": [],
+    "description": "Ermöglicht die wöchentliche Anmeldung bei den Fußballgöttern"
 }
