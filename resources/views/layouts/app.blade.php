@@ -17,6 +17,10 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script
+        type="module"
+        src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"
+    ></script>
 </head>
 <body>
     <div id="app" x-data="{ sidebarOpen: false }">
@@ -33,6 +37,5 @@
         const el = document.createElement('pwa-update');
         document.body.appendChild(el);
     </script>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall@latest/dist/pwa-install.min.js"></script>
 </body>
 </html>
