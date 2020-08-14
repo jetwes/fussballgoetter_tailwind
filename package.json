@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@fullhuman/postcss-purgecss": "^2.3.0",
+        "@pwabuilder/pwainstall": "^1.6.5",
         "@tailwindcss/ui": "^0.5.0",
         "tailwindcss": "^1.6.2"
     }

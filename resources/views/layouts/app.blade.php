@@ -17,10 +17,6 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <script
-        type="module"
-        src="https://cdn.jsdelivr.net/npm/@pwabuilder/pwainstall"
-    ></script>
 </head>
 <body>
     <div id="app" x-data="{ sidebarOpen: false }">
@@ -28,6 +24,9 @@
             @include('layouts.nav')
         @endif
         @yield('content')
+    </div>
+    <div style="position: absolute; bottom: 0; right: 0">
+        <pwa-install showOpen="true" installbuttontext="App installieren"></pwa-install>
     </div>
 
     <script type="module">
@@ -37,5 +36,6 @@
         const el = document.createElement('pwa-update');
         document.body.appendChild(el);
     </script>
+
 </body>
 </html>
