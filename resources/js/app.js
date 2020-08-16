@@ -7,7 +7,7 @@
 import {pwainstall} from "@pwabuilder/pwainstall";
 
 require('./bootstrap');
-import '@pwabuilder/pwainstall';
+//import '@pwabuilder/pwainstall';
 
 
 //window.Vue = require('vue');
