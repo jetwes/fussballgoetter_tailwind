@@ -13,7 +13,7 @@
                     <div class="ml-3 relative" @click.away="open = false" x-data="{ open: false }">
                         <div>
                             <button @click="open = !open"  class="max-w-xs flex items-center text-sm rounded-full text-white focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true">
-                                <img class="h-8 w-8 rounded-full" src="https://api.adorable.io/avatars/136/sports@adorable.io.png" alt="{{ auth()->user()->full_name }}">
+                                <img class="h-8 w-8 rounded-full" src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->full_name }}">
                             </button>
                         </div>
                         <!--
@@ -28,6 +28,8 @@
                         -->
                         <div class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg" style="display: none;" x-show="open">
                             <div class="py-1 rounded-md bg-white shadow-xs" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Avatar ändern</a>
+                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Passwort ändern</a>
                                 <a href="{{ route('logout') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Abmelden</a>
                             </div>
                         </div>
@@ -67,6 +69,8 @@
                 </div>
             </div>
             <div class="mt-3 px-2">
+                <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Avatar ändern</a>
+                <a href="#" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Passwort ändern</a>
                 <a href="{{ route('logout') }}" class="mt-1 block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Abmelden</a>
             </div>
         </div>

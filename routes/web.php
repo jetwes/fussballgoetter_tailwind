@@ -15,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::post('/user/forgot-password', [
+    'as'    => 'user-password-forgot-post',
+    'uses'  => 'PasswordController@forgotEmail',
+]);
+
+Route::get('/user/recover/{code}', [
+    'as'    => 'user-recover',
+    'uses'  => 'PasswordController@getRecover',
+]);
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('participate/{id}', 'ParticipationController@detail')->name('participate')->middleware('auth');

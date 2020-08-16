@@ -265,25 +265,22 @@
                     <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg">
                         <table class="min-w-full">
                             <thead>
-                            <tr class="border-b border-gray-700">
-                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider">
+                            <tr class="border-b border-gray-700 grid grid-cols-5">
+                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">
                                     Name
                                 </th>
-                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider">
-                                    Ja
-                                </th>
-                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider">
-                                    Nein
+                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-1">
+                                    Status
                                 </th>
                             </tr>
                             </thead>
                             <tbody>
                             @if($practise)
                                 @foreach($practise->participations as $participator)
-                                    <tr class="@if($loop->even) bg-white @else bg-gray-50 @endif">
-                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">{{ $participator->user->name }}</td>
-                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">@if($participator->participate) X @endif</td>
-                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">@if(!$participator->participate) X @endif</td>
+                                    <tr class="@if($loop->even) bg-white @else bg-gray-50 @endif grid grid-cols-5">
+                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
+                                            <img alt="Bild {{ $participator->user->name }}" src="{{ $participator->user->avatar }}" class="h-6 w-6 rounded-full float-left mr-2"> <span class="float-left">{{ $participator->user->name }}</span></td>
+                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 @if($participator->participate) bg-green-500 @else bg-red-500 @endif col-span-1"></td>
                                     </tr>
                                 @endforeach
                             @endif
