@@ -72,12 +72,12 @@ class PasswordController extends Controller
             $user->code = '';
 
             if ($user->save()) {
-                return Redirect::to('/auth/login')
+                return Redirect::to('/login')
                     ->with('success-message', 'Ihr Account wurde zurückgesetzt. Sie können Sie nun mit Ihrem neuen Passwort einloggen.');
             }
         }
 
-        return Redirect::to('/auth/login')
+        return Redirect::to('/login')
             ->with('error-message', 'Ihr Account konnte nicht zurück gesetzt werden.');
     }
 
