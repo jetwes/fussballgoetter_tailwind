@@ -25,9 +25,6 @@
         @endif
         @yield('content')
     </div>
-    <div style="position: absolute; bottom: 0; right: 0">
-        <pwa-install showOpen="true" installbuttontext="App installieren"></pwa-install>
-    </div>
 
     <script type="module">
 
