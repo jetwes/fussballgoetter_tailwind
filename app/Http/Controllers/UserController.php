@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use App\User;
 use Illuminate\Support\Facades\Auth;
@@ -26,5 +27,20 @@ class UserController extends Controller
             return Redirect::route('home')
                 ->with('error-message', 'Beim speichern des Benutzers ist ein Fehler aufgetreten.');
         }
+    }
+
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'password'  => 'same:password_again|min:6'
+        ],[
+            'password.same' => 'Die Passwörter müssen übereinstimmen',
+            'password.min' => 'Das Passwort muss mindestens 6 Zeichen lang sein.'
+        ]);
+
+        $user = User::where('id',\auth()->id())->first();
+        $user->password = Hash::make($request->input('password'));
+        $user->save();
+        return \redirect(route('home'))->with('success-message','Das Passwort wurde erfolgreich geändert!');
     }
 }

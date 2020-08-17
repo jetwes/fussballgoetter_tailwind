@@ -29,10 +29,19 @@ Route::get('change-avatar',function (){
     return view('user.avatar');
 })->name('change-avatar')
     ->middleware('auth');
-
 Route::post('change-avatar',[\App\Http\Controllers\UserController::class,'changeAvatar'])
     ->name('change-avatar')
     ->middleware('auth');
+
+
+Route::get('change-password',function (){
+    return view('user.password');
+})->name('change-password')
+    ->middleware('auth');
+Route::post('change-password',[\App\Http\Controllers\UserController::class,'changePassword'])
+    ->name('change-password')
+    ->middleware('auth');
+
 
 Route::get('/', 'HomeController@index')->name('home');
 
