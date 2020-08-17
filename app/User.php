@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Http\Requests\Authorize;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,7 +34,6 @@ class User extends Authenticatable
             'crop' => true,
             // what disk you want to upload, default config('imageup.upload_disk')
             'disk' => 'profile',
-
             // a folder path on the above disk, default config('imageup.upload_directory')
             'path' => '/user/avatars',
         ]
