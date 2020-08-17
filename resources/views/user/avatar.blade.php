@@ -4,7 +4,7 @@
     <div class="md:w-1/2 sm:w-full sm:mx-auto md:mx-auto">
         <form action="{{ route('change-avatar') }}" method="POST" enctype="multipart/form-data">
             @csrf
-            <div class="mt-4">
+            <div class="mt-4 mx-4">
                 <div>
                     <div>
                         <h3 class="text-lg leading-6 font-medium text-gray-900">
@@ -19,7 +19,7 @@
                             </label>
                             <div class="mt-2 flex items-center">
                                 <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                                  <img src="{{ auth()->user()->avatar }}" class="h12 w-12 rounded-full">
+                                  <img src="{{ auth()->user()->avatar }}" class="h12 w-12 rounded-full" alt="Avatar"/>
                                 </span>
                                 <span class="ml-5 rounded-md shadow-sm">
                                   <input type="file" name="avatar" class="py-2 px-3 border border-gray-300 rounded-md text-sm leading-4 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out"/>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-8 border-t border-gray-200 pt-5">
+            <div class="mt-8 border-t border-gray-200 pt-5 mr-4">
                 <div class="flex justify-end">
               <span class="inline-flex rounded-md shadow-sm">
                   <a href="/">
