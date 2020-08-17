@@ -25,6 +25,15 @@ Route::get('/user/recover/{code}', [
     'uses'  => 'PasswordController@getRecover',
 ]);
 
+Route::get('change-avatar',function (){
+    return view('user.avatar');
+})->name('change-avatar')
+    ->middleware('auth');
+
+Route::post('change-avatar',[\App\Http\Controllers\UserController::class,'changeAvatar'])
+    ->name('change-avatar')
+    ->middleware('auth');
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('participate/{id}', 'ParticipationController@detail')->name('participate')->middleware('auth');
