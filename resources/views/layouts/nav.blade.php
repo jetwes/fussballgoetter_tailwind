@@ -13,7 +13,7 @@
                     <div class="ml-3 relative" @click.away="open = false" x-data="{ open: false }">
                         <div>
                             <button @click="open = !open"  class="max-w-xs flex items-center text-sm rounded-full text-white focus:outline-none focus:shadow-solid" id="user-menu" aria-label="User menu" aria-haspopup="true">
-                                <img class="h-8 w-8 rounded-full" src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->full_name }}">
+                                <img class="h-10 w-10 rounded-full" src="{{ auth()->user()->avatar }}" alt="{{ auth()->user()->full_name }}">
                             </button>
                         </div>
                         <!--

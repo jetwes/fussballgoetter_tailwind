@@ -311,7 +311,7 @@
                                         <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
                                             <img alt="Bild {{ $participator->user->name }}"
                                                  src="{{ $participator->user->avatar }}"
-                                                 class="h-6 w-6 rounded-full float-left mr-2"> <span class="float-left">{{ $participator->user->name }}</span></td>
+                                                 class="h-10 w-10 rounded-full float-left mr-2"> <span class="float-left">{{ $participator->user->name }}</span></td>
                                         <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 @if($participator->participate) bg-green-500 @else bg-red-500 @endif col-span-1"></td>
                                     </tr>
                                 @endforeach
