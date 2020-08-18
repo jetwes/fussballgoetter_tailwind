@@ -4,6 +4,18 @@
     @parent
 @endsection
 
+@section('js-head')
+    <script>
+        function handleVisibilityChange(){
+            if(document.visibilityState === "visible"){
+                load_container();
+            }
+        }
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+    </script>
+@endsection
+
 @section('content')
     <div class="md:w-1/2 sm:w-full sm:mx-auto md:mx-auto">
         <div class="">

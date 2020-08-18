@@ -14,16 +14,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer></script>
-    <script>
-        function handleVisibilityChange(){
-            if(document.visibilityState === "visible"){
-                load_container();
-            }
-        }
-
-        document.addEventListener('visibilitychange', handleVisibilityChange);
-    </script>
-
+    @yield('js-head')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
