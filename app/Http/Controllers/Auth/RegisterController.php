@@ -68,6 +68,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'avatar'   => 'https://api.adorable.io/avatars/136/sports@adorable.io.png'
         ]);
     }
 }

@@ -8,14 +8,33 @@
                 <div>
                     <div>
                         <h3 class="text-lg leading-6 font-medium text-gray-900">
-                            Profil
+                            Profil bearbeiten
                         </h3>
                     </div>
                     <div class="mt-6 grid grid-cols-1 row-gap-6 col-gap-4 sm:grid-cols-6">
                         <div class="sm:col-span-3">
+                            <label for="name" class="block text-sm font-medium leading-5 text-gray-700">
+                                Name
+                            </label>
+                            <div class="mt-1 rounded-md shadow-sm">
+                                <input id="name" name="name" value=@if(!old('name'))"{{ auth()->user()->name }}" @else "{{ old('name') }}" @endif type="text" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            </div>
+                            @error('name') <span class="text-red-500 font-medium text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="sm:col-span-3">
+                            <label for="birthday" class="block text-sm font-medium leading-5 text-gray-700">
+                                Geburtstag
+                            </label>
+                            <div class="mt-1 rounded-md shadow-sm">
+                                <input id="birthday" name="birthday" type="text" placeholder="01.01.1960" @if(auth()->user()->birthday) value="{{ auth()->user()->birthday->format('d.m.Y') }}" @endif class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
+                            </div>
+                            @error('birthday') <span class="text-red-500 font-medium text-xs">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="sm:col-span-3">
                             <label for="password" class="block text-sm font-medium leading-5 text-gray-700">
                                 Neues Passwort
                             </label>
+                            <span class="text-sm text-gray-400">Leer lassen wenn es nicht geändert werden soll</span>
                             <div class="mt-1 rounded-md shadow-sm">
                                 <input id="password" name="password" type="password" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                             </div>
@@ -25,10 +44,11 @@
                             <label for="password_again" class="block text-sm font-medium leading-5 text-gray-700">
                                 Wiederholung neues Passwort
                             </label>
+                            <span class="text-sm text-gray-400">Leer lassen wenn es nicht geändert werden soll</span>
                             <div class="mt-1 rounded-md shadow-sm">
                                 <input id="password_again" name="password_again" type="password" class="form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">
                             </div>
-                            @error('password') <span class="text-red-500 font-medium">{{ $message }}</span> @enderror
+                            @error('password') <span class="text-red-500 font-medium text-xs">{{ $message }}</span> @enderror
                         </div>
                     </div>
                 </div>

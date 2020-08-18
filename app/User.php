@@ -2,7 +2,8 @@
 
 namespace App;
 
-use App\Http\Requests\Authorize;
+//use App\Http\Requests\Authorize;
+use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -19,6 +20,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $guarded = [];
+
+    protected $dates = ['birthday'];
 
     /**
      * All the images fields for model
@@ -38,8 +41,6 @@ class User extends Authenticatable
             'path' => '/user/avatars',
         ]
     ];
-
-    protected $dates = ['birthday'];
 
     /**
      * The attributes that should be hidden for arrays.
