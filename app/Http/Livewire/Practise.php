@@ -34,15 +34,22 @@ class Practise extends Component
         $participation = Participation::where('practise_id',$this->practise->id)->where('user_id',auth()->id())->first();
         if ($participation) {
             $participation->participate = $participate;
+            //reset beer if user is not participating
             if ($participation->beer == true && $participate === false)
                 $participation->beer = false;
             $participation->save();
+            $this->getBeer();
+            if (!$participate)
+                session()->flash('error-message','Du hast dich erfolgreich abgemeldet.');
+            else
+                session()->flash('success-message','Du hast dich erfolgreich angemeldet.');
         } else {
             Participation::create([
                 'user_id' => auth()->id(),
                 'practise_id' => $this->practise->id,
                 'participate' => $participate,
             ]);
+            session()->flash('success-message','Du hast dich erfolgreich angemeldet.');
         }
     }
 
@@ -53,13 +60,23 @@ class Practise extends Component
     {
         $participation = Participation::where('practise_id',$this->practise->id)->where('user_id',auth()->id())->first();
         if ($participation) {
+            if(!$participation->participate) {
+                session()->flash('error-message','Du kannst kein Bier mitringen - du bist noch nicht angemeldet ;)');
+                return;
+            }
             $participation->beer = $beer;
             $participation->save();
+            //thank the user
+            if ($beer)
+                session()->flash('success-message','DANKE! Du bringst Bier mit.');
+            else
+                session()->flash('error-message','Schade, du bringst doch kein Bier mit.');
         } else {
             Participation::create([
                 'user_id' => auth()->id(),
                 'practise_id' => $this->practise->id,
                 'beer' => $beer,
+                'participate'   => true
             ]);
         }
         $this->getBeer();
