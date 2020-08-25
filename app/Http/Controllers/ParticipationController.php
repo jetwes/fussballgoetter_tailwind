@@ -31,7 +31,7 @@ class ParticipationController extends Controller
     /**
      * @param $id
      * @param Request $request
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
      */
     public function detail($id, Request $request)
     {
@@ -64,6 +64,8 @@ class ParticipationController extends Controller
             }
         }
         $practise = Practise::where('id', '=', $id)->with(['participations','participators','participations.user'])->first();
+        if ($practise->date_of_practise < Carbon::now())
+            return redirect(route('home'));
         if ($practise)
             $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
         else $beer = null;
