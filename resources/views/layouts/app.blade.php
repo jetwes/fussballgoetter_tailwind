@@ -17,6 +17,7 @@
     @yield('js-head')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
     @yield('styles-head')
 </head>
 <body>
