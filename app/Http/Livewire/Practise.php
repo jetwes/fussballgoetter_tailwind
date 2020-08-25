@@ -34,6 +34,8 @@ class Practise extends Component
         $participation = Participation::where('practise_id',$this->practise->id)->where('user_id',auth()->id())->first();
         if ($participation) {
             $participation->participate = $participate;
+            if ($participation->beer == true && $participate === false)
+                $participation->beer = false;
             $participation->save();
         } else {
             Participation::create([
