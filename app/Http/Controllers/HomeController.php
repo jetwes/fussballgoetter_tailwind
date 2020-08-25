@@ -35,27 +35,11 @@ class HomeController extends Controller
     public function index()
     {
         $german_days = $this->german_days;
-        $practise = Practise::where('date_of_practise','>=',Carbon::now())->orderBy('date_of_practise','ASC')->with(['participations','participations.user','participators','cancellations'])->limit(1)->first();
-        if (!$practise)
-            $practise = Practise::create([
-                'name'              => 'Montagstruppe',
-                'date_of_practise'  => Carbon::now()->startOfWeek()->addWeek()->setTime(19,00,00)
-            ]);
-        if ($practise)
-            $beer = Participation::where('practise_id',$practise->id)->where('beer',true)->first();
-        else $beer = null;
-        //dd($practise);
-        $birthdays = User::whereNotNull('birthday')->get();
-        foreach($birthdays as $key => $birthday) {
-            if ($birthday->birthday && !$birthday->birthday->isBirthday()) {
-                if( ($birthday->birthday->day != Carbon::now()->addDays(1)->day && $birthday->birthday->day != Carbon::now()->addDays(2)->day && $birthday->birthday->day != Carbon::now()->addDays(3)->day
-                && $birthday->birthday->day != Carbon::now()->addDays(4)->day && $birthday->birthday->day != Carbon::now()->addDays(5)->day && $birthday->birthday->day != Carbon::now()->addDays(6)->day
-                ) || ($birthday->birthday->month != Carbon::now()->month || $birthday->birthday->day < Carbon::now()->day))
-                    unset($birthdays[$key]);
-            }
-        }
 
-        return view('practise', compact('practise', 'birthdays','beer'));
+
+        return view('home');
+
+        //return view('practise', compact('practise', 'birthdays','beer'));
         //return view('home',compact('practises','german_days'));
     }
 }
