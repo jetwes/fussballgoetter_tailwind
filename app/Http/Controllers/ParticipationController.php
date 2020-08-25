@@ -31,10 +31,15 @@ class ParticipationController extends Controller
     /**
      * @param $id
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
     public function detail($id, Request $request)
     {
+        /*
+         * we handle everything in livewire - this ist just an old reference
+         */
+        return redirect(route('home'));
+        /*
         if ($request->has('participate')) {
             $participation = Participation::where('user_id', '=', Auth::user()->id)->where('practise_id','=',$id)->first();
             if ($participation) {
@@ -79,6 +84,7 @@ class ParticipationController extends Controller
             }
         }
         return view('practise', compact('practise','birthdays','beer'));
+        */
     }
 
     /**

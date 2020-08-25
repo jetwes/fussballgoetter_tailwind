@@ -10,15 +10,7 @@ use Carbon\Carbon;
 
 class HomeController extends Controller
 {
-    protected $german_days = [
-        0   => 'So.',
-        1   => 'Mo.',
-        2   => 'Di.',
-        3   => 'Mi.',
-        4   => 'Do.',
-        5   => 'Fr.',
-        6   => 'Sa.'
-    ];
+
     /**
      * Create a new controller instance.
      *
@@ -34,12 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $german_days = $this->german_days;
-
-
+        /*
+         * we do all stuff in livewire
+         */
         return view('home');
 
-        //return view('practise', compact('practise', 'birthdays','beer'));
-        //return view('home',compact('practises','german_days'));
     }
 }
