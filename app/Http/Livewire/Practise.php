@@ -26,6 +26,31 @@ class Practise extends Component
      */
     public $beer;
 
+    public $participation;
+
+    public $places = 0;
+    public $comment;
+
+    public function updatedComment($comment)
+    {
+        $this->participation->comment = $comment;
+        $this->participation->save();
+    }
+
+    public function updatedPlaces($places)
+    {
+        if($places === '') $places = 0;
+        $this->participation->places = $places;
+        $this->participation->save();
+    }
+
+    public function noDrive()
+    {
+        $this->participation->places = 0;
+        $this->participation->comment = null;
+        $this->participation->save();
+    }
+
     /**
      * @param bool $participate
      */
@@ -37,6 +62,15 @@ class Practise extends Component
             //reset beer if user is not participating
             if ($participation->beer == true && $participate === false)
                 $participation->beer = false;
+            if ($participate === false) {
+                $participation->places = 0;
+                $participation->comment = null;
+                $this->participation->places = 0;
+                $this->participation->comment = null;
+                $this->participation->participate = false;
+            }
+            if ($participate)
+                $this->participation->participate = true;
             $participation->save();
             $this->getBeer();
             if (!$participate)
@@ -135,8 +169,16 @@ class Practise extends Component
      */
     public function render()
     {
-        if(count($this->propertyHashes) !== 0)
+        if(count($this->propertyHashes) !== 0) {
             $this->practise = $this->getPractise();
+        }
+        if ($this->practise && !$this->participation) {
+            $this->participation = Participation::where('practise_id', $this->practise->id)->where('user_id', auth()->id())->first();
+            if($this->participation) {
+                $this->places = $this->participation->places;
+                $this->comment = $this->participation->comment;
+            }
+        }
         return view('livewire.practise');
     }
 }
