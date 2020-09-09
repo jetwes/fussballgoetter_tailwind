@@ -1,4 +1,4 @@
-<div>
+<div  x-data="{ showDrive: @if($participation && $participation->places > 0) true @else false @endif }">
     <div class="md:w-1/2 sm:w-full sm:mx-auto md:mx-auto">
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
@@ -116,7 +116,7 @@
                             @endif
                         </div>
                         @if($this->participation->participate)
-                            <div x-data="{ showDrive: @if($participation->places > 0) true @else false @endif }">
+                            <div>
                                 <div class="grid grid-cols-2 mt-4">
                                     <h3 class="mb-4 col-span-1 mr-4">Ich kann fahren</h3>
                                     <button x-on:click="showDrive = true" x-show="!showDrive" style="display: none"  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex h-10">
