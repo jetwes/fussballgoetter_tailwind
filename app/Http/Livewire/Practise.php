@@ -33,6 +33,7 @@ class Practise extends Component
 
     public function updatedComment($comment)
     {
+        if ($comment === '') $comment = null;
         $this->participation->comment = $comment;
         $this->participation->save();
     }
@@ -46,6 +47,12 @@ class Practise extends Component
 
     public function noDrive()
     {
+        //$participation = Participation::where('id',$this->participation->id)->first();
+        //$participation->places = 0;
+        //$participation->comment = null;
+        //$participation->save();
+        $this->places = 0;
+        $this->comment = null;
         $this->participation->places = 0;
         $this->participation->comment = null;
         $this->participation->save();
@@ -62,7 +69,7 @@ class Practise extends Component
             //reset beer if user is not participating
             if ($participation->beer == true && $participate === false)
                 $participation->beer = false;
-            if ($participate === false) {
+            if ($participate == false) {
                 $participation->places = 0;
                 $participation->comment = null;
                 $this->participation->places = 0;
