@@ -15,7 +15,7 @@
                 @if($practise)
                         <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
                         <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places') }}</h3>
-                        <div x-show="showDrivers">
+                        <div x-show="showDrivers" style="display: none">
                             <div class="overflow-x-auto">
                                 <div class="table min-w-full">
                                     <table>
