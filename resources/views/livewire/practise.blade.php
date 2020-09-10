@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="grid grid-cols-2 mt-4">
-                            @if(!$beer && $this->participation->participate)
+                            @if(!$beer && isset($this->participation) && $this->participation->participate)
                                 <h3 class="mb-4 col-span-1">Ich bringe Bier mit:</h3>
                                 <a class="col-span-1" wire:click="setBeer(true)"><button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded inline-flex">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" class="h-6 w-6 mr-2" viewBox="0 0 24 24" stroke="currentColor">
