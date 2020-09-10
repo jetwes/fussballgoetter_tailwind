@@ -115,7 +115,7 @@
                                 @endif
                             @endif
                         </div>
-                        @if($this->participation->participate)
+                        @if($this->participation && $this->participation->participate)
                             <div>
                                 <div class="grid grid-cols-2 mt-4">
                                     <h3 class="mb-4 col-span-1 mr-4">Ich kann fahren</h3>
