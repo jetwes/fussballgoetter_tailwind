@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "836cd0f999a0afb78c18af58a8798a21",
+    "content-hash": "1042415d68bc8cb1198dfcda7af4d748",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -5531,6 +5531,60 @@
                 "unit"
             ],
             "time": "2020-08-25T21:08:14+00:00"
+        },
+        {
+            "name": "pestphp/pest-plugin-livewire",
+            "version": "v0.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pestphp/pest-plugin-livewire.git",
+                "reference": "22bc3324752590a0232d4e091084b8d5cac59faa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pestphp/pest-plugin-livewire/zipball/22bc3324752590a0232d4e091084b8d5cac59faa",
+                "reference": "22bc3324752590a0232d4e091084b8d5cac59faa",
+                "shasum": ""
+            },
+            "require": {
+                "livewire/livewire": "^1.2|^2.0",
+                "pestphp/pest": "^0.3",
+                "php": "^7.3"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^5.2",
+                "pestphp/pest-dev-tools": "dev-master"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Pest\\Livewire\\": "src/"
+                },
+                "files": [
+                    "src/Autoload.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "The Pest Livewire Plugin",
+            "keywords": [
+                "framework",
+                "livewire",
+                "pest",
+                "php",
+                "plugin",
+                "test",
+                "testing",
+                "unit"
+            ],
+            "time": "2020-09-07T19:13:57+00:00"
         },
         {
             "name": "phar-io/manifest",
