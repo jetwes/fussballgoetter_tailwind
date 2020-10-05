@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire;
 
+use App\Draw;
 use App\Participation;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use App\Practise as CurrentPractise;
 
@@ -56,6 +58,61 @@ class Practise extends Component
         $this->participation->places = 0;
         $this->participation->comment = null;
         $this->participation->save();
+    }
+
+    public function shuffle($id)
+    {
+        $practise = \App\Practise::where('id', '=', $id)->with('Participators')->first();
+        //check if theres a shuffle already
+        $draw = Draw::where('practise_id',$id)->first();
+        if ($draw) {
+            $teamA = $draw->teamA;
+            $teamB = $draw->teamB;
+            $teamC = $draw->teamC;
+            $teams[] = explode(',',$teamA);
+            $teams[] = explode(',',$teamB);
+            $teams[] = explode(',',$teamC);
+            return view('shuffle',compact('teamA','teamB','teamC','teams','draw'));
+        }
+
+        //if there is no draw - do it
+        $names = [];
+        if ($practise)
+            foreach ($practise->participators as $participator) {
+                array_push($names, $participator->User->name);
+            }
+        $shuffle = $names;
+        shuffle($shuffle); //shuffle the names
+        if (count($shuffle) >= 15)
+            $tile = round(count($shuffle) / 3, 0); // split into 3 teams
+        else
+            $tile = round(count($shuffle) / 2, 0); // split into 2 teams
+
+        $teams = array_chunk($shuffle, $tile);
+        $teamA = '';
+        $teamB = '';
+        $teamC = '';
+        foreach($teams[0] as $player) {
+            $teamA .= $player.',';
+        }
+        foreach($teams[1] as $player) {
+            $teamB .= $player.',';
+        }
+        if (count($shuffle) >= 15) {
+            foreach($teams[2] as $player) {
+                $teamC .= $player.',';
+            }
+        } else $teamC = null;
+        //create the teams in the database
+        $draw = Draw::create([
+            'practise_id' => $id,
+            'teamA'         => $teamA,
+            'teamB'         => $teamB,
+            'teamC'         => $teamC,
+            'drawer_id'     => Auth::user()->id
+        ]);
+        session()->flash('success-message','Die Auslosung ist erfolgt!');
+        //return view('shuffle',compact('teamA','teamB','teamC','teams','draw'));
     }
 
     /**

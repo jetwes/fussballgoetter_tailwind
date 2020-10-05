@@ -90,7 +90,7 @@
                                 <a wire:click="participate(false)"><button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">NEIN</button></a>
 
                                 @if(\App\Draw::where('practise_id',$practise->id)->first())
-                                    <a target="_blank" href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">Auslosung anzeigen!</button></strong></a>
+                                    <a href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">Auslosung anzeigen!</button></strong></a>
                                 @endif
                             </div>
                         </div>
@@ -145,6 +145,11 @@
                     </div>
                 @endif
             </div>
+            @if($practise)
+                @if((\Auth::user()->name == 'T-Man' || \Auth::user()->name == 'Übungsleiter') && !\App\Draw::where('practise_id',$practise->id)->first() && (\Carbon\Carbon::now() >= $practise->date_of_practise->subHours(3)))
+                    <a target="_blank" class="mt-8" wire:click.prevent="shuffle({{ $practise->id }})" href="#"><strong><button class="bg-green-500 hover:bg-grren-600 text-white font-bold py-2 px-4 rounded mt-4 mb-4">Teams losen - Achtung nur 1 mal möglich!</button></strong></a>
+                @endif
+            @endif
             <div>
                 <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
                     <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg">
@@ -174,11 +179,6 @@
                             </tbody>
                         </table>
                     </div>
-                    @if($practise)
-                        @if((\Auth::user()->name == 'T-Man' || \Auth::user()->name == 'Übungsleiter') && !\App\Draw::where('practise_id',$practise->id)->first() && (\Carbon\Carbon::now() >= $practise->date_of_practise->subHours(3)))
-                            <a target="_blank" class="mt-8" href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded">Teams losen - Achtung nur 1 mal möglich!</button></strong></a>
-                        @endif
-                    @endif
                 </div>
             </div>
         </div>
