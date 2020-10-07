@@ -28,5 +28,14 @@
         @yield('content')
     </div>
 @yield('js-body')
+<footer class="bg-white">
+  <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
+    <div class="mt-8 md:mt-0 md:order-1">
+      <p class="text-center text-base leading-6 text-gray-400">
+        &copy; 2020 Jens Twesmann, Quelltext/source code: <a href="https://github.com/jetwes/fussballgoetter_tailwind">Github Repository</a>
+      </p>
+    </div>
+  </div>
+</footer>
 </body>
 </html>
