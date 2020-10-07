@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Draw;
 use App\Participation;
+use App\Seat;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -40,10 +41,35 @@ class Practise extends Component
         $this->participation->save();
     }
 
+    public function takeSeat($id)
+    {
+        $seat = new Seat();
+        $seat->driver_id = Participation::where('id',$id)->first()->user_id;
+        $seat->user_id = Auth::user()->id;
+        $seat->practise_id = $this->participation->practise_id;
+        $seat->save();
+    }
+
+    public function leaveSeat($id)
+    {
+        Seat::where('user_id',Auth::id())->where('practise_id',$this->participation->practise_id)->delete();
+    }
+
     public function updatedPlaces($places)
     {
         if($places === '') $places = 0;
         $this->participation->places = $places;
+        if ($places > 0)
+        {
+            $seat = Seat::where('practise_id',$this->participation->practise_id)->where('driver_id',$this->participation->user_id)->first();
+            if (!$seat) {
+                $seat = new Seat();
+                $seat->driver_id = Auth::user()->id;
+                $seat->user_id = Auth::user()->id;
+                $seat->practise_id = $this->participation->practise_id;
+                $seat->save();
+            }
+        }
         $this->participation->save();
     }
 
@@ -57,6 +83,7 @@ class Practise extends Component
         $this->comment = null;
         $this->participation->places = 0;
         $this->participation->comment = null;
+        Seat::where('practise_id',$this->participation->practise_id)->where('driver_id',$this->participation->user_id)->delete();
         $this->participation->save();
     }
 
@@ -132,6 +159,7 @@ class Practise extends Component
                 $this->participation->places = 0;
                 $this->participation->comment = null;
                 $this->participation->participate = false;
+                Seat::where('practise_id',$this->participation->practise_id)->where('user_id',Auth::id())->delete();
             }
             if ($participate)
                 $this->participation->participate = true;
@@ -185,7 +213,9 @@ class Practise extends Component
      */
     public function getPractise()
     {
-        $practise = CurrentPractise::where('date_of_practise','>=',Carbon::now()->subHours(4))->orderBy('date_of_practise','ASC')->with(['participations','participations.user','participators'])->limit(1)->first();
+        $practise = CurrentPractise::where('date_of_practise','>=',Carbon::now()->subHours(4))->orderBy('date_of_practise','ASC')
+            ->with(['participations','participations.user','participators'])
+            ->limit(1)->first();
         if (!$practise)
             $practise = CurrentPractise::create([
                 'name'              => 'Montagstruppe',

@@ -2,7 +2,7 @@
     <div class="md:w-1/2 sm:w-full sm:mx-auto md:mx-auto">
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
-                @if($practise){{ $practise->date_of_practise->subMinutes(30)->format('d.m.Y H:i') }} Uhr @endif
+                @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr @endif
                @if(Carbon\Carbon::now() < Carbon\Carbon::create(2020,10,1))
                     <h2>Aktuell wird OPEN AIR am Meiningser Weg gespielt.</h2>
                @else
@@ -14,7 +14,7 @@
                 @endif
                 @if($practise)
                         <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
-                        <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places') }}</h3>
+                        <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places')-(App\Seat::where('practise_id',$practise->id)->count()) + $practise->participators->where('places','>',0)->count()  }} / {{ $practise->participators->sum('places') }}</h3>
                         <div x-show="showDrivers" style="display: none">
                             <div class="overflow-x-auto">
                                 <div class="table min-w-full">
@@ -24,15 +24,42 @@
                                             <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Name</th>
                                             <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Plätze</th>
                                             <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Info</th>
+                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Aktion</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($practise->participators->where('places','>',0) as $driver)
                                            <tr>
                                                 <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->user->name }}</td>
-                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->places }}</td>
+                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
+                                                    <span title="@foreach(App\Seat::where('driver_id',$driver->user_id)->where('practise_id',$practise->id)->get() as $seat) {{ $seat->user->name }}, @endforeach">
+                                                        {{ $driver->places - (App\Seat::where('driver_id',$driver->user_id)->where('practise_id',$practise->id)->where('user_id','!=',$driver->user_id)->count()) }} / {{ $driver->places }}
+                                                    </span>
+                                                </td>
                                                 <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->comment }}</td>
-                                           </tr>
+                                               <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
+                                                   @if(!(App\Seat::where('practise_id',$practise->id)->where('driver_id',Auth::id())->first()))
+                                                       @if(!App\Seat::where('user_id',Auth::id())->where('practise_id',$practise->id)->first())
+                                                           <a href="#" wire:click.prevent="takeSeat({{ $driver->id }})" title="Platz beanspruchen" class="text-green-500 hover:text-green-500">
+                                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                                                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                               </svg>
+                                                           </a>
+                                                       @else
+                                                           <a href="#" wire:click.prevent="leaveSeat({{ $driver->id }})" class="text-red-500 hover:text-red-600" title="Platz freigeben">
+                                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                                                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                               </svg>
+                                                           </a>
+                                                       @endif
+                                                   @endif
+                                               </td>
+                                            @foreach(App\Seat::where('practise_id',$practise->id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
+                                                <tr>
+                                                    <td></td>
+                                                    <td colspan="3"  class="px-4 py-3 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">{{ $seat->user->name }}</td>
+                                                </tr>
+                                            @endforeach
                                         @endforeach
                                         </tbody>
                                     </table>
@@ -95,6 +122,7 @@
                             </div>
                         </div>
 
+                        <!--
                         <div class="grid grid-cols-2 mt-4">
                             @if(!$beer && isset($this->participation) && $this->participation->participate)
                                 <h3 class="mb-4 col-span-1">Ich bringe Bier mit:</h3>
@@ -115,6 +143,7 @@
                                 @endif
                             @endif
                         </div>
+                        -->
                         @if($this->participation && $this->participation->participate)
                             <div>
                                 <div class="grid grid-cols-2 mt-4">

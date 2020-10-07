@@ -39,4 +39,9 @@ class Practise extends Model
     {
         return $this->hasOne(Draw::class);
     }
+
+    public function seats()
+    {
+        return $this->hasMany(Seat::class);
+    }
 }
