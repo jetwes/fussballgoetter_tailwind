@@ -38,7 +38,7 @@
                                                 </td>
                                                 <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->comment }}</td>
                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
-                                                   @if(!(App\Seat::where('practise_id',$practise->id)->where('driver_id',Auth::id())->first()))
+                                                   @if(!(App\Seat::where('practise_id',$practise->id)->where('driver_id',Auth::id())->first()) && (isset($this->participation) && $this->participation->participate))
                                                        @if(!App\Seat::where('user_id',Auth::id())->where('practise_id',$practise->id)->first())
                                                            <a href="#" wire:click.prevent="takeSeat({{ $driver->id }})" title="Platz beanspruchen" class="text-green-500 hover:text-green-500">
                                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
