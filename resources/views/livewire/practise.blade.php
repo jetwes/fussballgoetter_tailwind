@@ -23,20 +23,28 @@
                                         <tr>
                                             <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Name</th>
                                             <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Plätze</th>
+                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Mitfahrer</th>
                                             <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Info</th>
                                             <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Aktion</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         @foreach($practise->participators->where('places','>',0) as $driver)
-                                           <tr>
-                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->user->name }}</td>
+                                           <tr class="border">
+                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4"
+                                                    rowspan="{{App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->count() }}">{{ $driver->user->name }}</td>
                                                 <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
                                                     <span title="@foreach(App\Seat::where('driver_id',$driver->user_id)->where('practise_id',$practise->id)->get() as $seat) {{ $seat->user->name }}, @endforeach">
                                                         {{ $driver->places - (App\Seat::where('driver_id',$driver->user_id)->where('practise_id',$practise->id)->where('user_id','!=',$driver->user_id)->count()) }} / {{ $driver->places }}
                                                     </span>
                                                 </td>
-                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->comment }}</td>
+                                               @foreach(App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
+                                                   <td class="px-2 py-1 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $seat->user->name }}</td>
+                                               @endforeach
+                                               @if(App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->count() == 0)
+                                                   <td></td>
+                                               @endif
+                                               <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->comment }}</td>
                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
                                                    @if(!(App\Seat::where('practise_id',$practise->id)->where('driver_id',Auth::id())->first()) && (isset($this->participation) && $this->participation->participate))
                                                        @if(!App\Seat::where('user_id',Auth::id())->where('practise_id',$practise->id)->first())
@@ -54,12 +62,7 @@
                                                        @endif
                                                    @endif
                                                </td>
-                                            @foreach(App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
-                                                <tr>
-                                                    <td></td>
-                                                    <td colspan="3"  class="px-4 py-3 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">{{ $seat->user->name }}</td>
-                                                </tr>
-                                            @endforeach
+                                           </tr>
                                         @endforeach
                                         </tbody>
                                     </table>
