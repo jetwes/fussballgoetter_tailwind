@@ -54,7 +54,7 @@
                                                        @endif
                                                    @endif
                                                </td>
-                                            @foreach(App\Seat::where('practise_id',$practise->id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
+                                            @foreach(App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
                                                 <tr>
                                                     <td></td>
                                                     <td colspan="3"  class="px-4 py-3 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">{{ $seat->user->name }}</td>
