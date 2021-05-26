@@ -6,8 +6,8 @@
                @if(Carbon\Carbon::now() < Carbon\Carbon::create(2020,10,1))
                     <h2>Aktuell wird OPEN AIR am Meiningser Weg gespielt.</h2>
                @else
-                <h2>Gespielt wird in der Soccerhalle Maifeld in Werl -
-                    <a class="hover:font-bold underline" title="Route" href="https://www.google.com/maps/dir/Soest/maifeld+soccerhalle/@51.5528717,7.9605491,13z/data=!3m1!4b1!4m13!4m12!1m5!1m1!1s0x47b962b5f4f182bf:0x2de15182f880daae!2m2!1d8.105754!2d51.5711476!1m5!1m1!1s0x47b96fead8f42981:0x154a958252c0b248!2m2!1d7.8923251!2d51.5665197">
+                <h2>Gespielt wird im Hellbring in Meckingsen  -
+                    <a class="hover:font-bold underline" title="Route" href="https://www.google.com/maps/place/SGM+Meckingsen,+59494+Soest/@51.6014495,8.0680472,17z/data=!3m1!4b1!4m5!3m4!1s0x47b97cec06f25269:0xb05f0852ca638a73!8m2!3d51.6016002!4d8.0701271">
                             zur Route
                         </a>
                 </h2>
