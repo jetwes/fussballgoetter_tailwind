@@ -123,7 +123,6 @@
                             </div>
                         </div>
 
-                        <!--
                         <div class="grid grid-cols-2 mt-4">
                             @if(!$beer && isset($this->participation) && $this->participation->participate)
                                 <h3 class="mb-4 col-span-1">Ich bringe Bier mit:</h3>
@@ -144,7 +143,7 @@
                                 @endif
                             @endif
                         </div>
-                        -->
+
                         @if($this->participation && $this->participation->participate)
                             <div>
                                 <div class="grid grid-cols-2 mt-4">
