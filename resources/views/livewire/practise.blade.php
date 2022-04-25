@@ -3,8 +3,8 @@
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
                 @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr @endif
-                <h2>Gespielt wird im Tagungshotel Maifeld in Werl, Hammer Landstraße 4  -
-                    <a class="hover:font-bold underline" title="Route" href="https://www.google.com/maps/place/Maifeld+Sport-+und+Tagungshotel/@51.5662188,7.8908452,17z/data=!3m2!4b1!5s0x47b96fead0eecab3:0xaeb0f360dce7f739!4m8!3m7!1s0x47b96fead8f42981:0x154a958252c0b248!5m2!4m1!1i2!8m2!3d51.5662155!4d7.8930339">
+                <h2>Gespielt wird auf dem Sportplatz Meckingsen
+                    <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Ardey+P%C3%B6hlerz+Soest/@51.6042217,8.0790524,16.17z/data=!4m9!1m2!2m1!1ssportplatz+meckingsen!3m5!1s0x47b97ceea973994d:0xcaf48e31eb2c236e!8m2!3d51.601772!4d8.071067!15sChVzcG9ydHBsYXR6IG1lY2tpbmdzZW6SAQxzb2NjZXJfZmllbGQ">
                             zur Route
                         </a>
                 </h2>
