@@ -3,8 +3,8 @@
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
                 @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr @endif
-                <h2>Gespielt wird auf dem Sportplatz Meckingsen
-                    <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Ardey+P%C3%B6hlerz+Soest/@51.6042217,8.0790524,16.17z/data=!4m9!1m2!2m1!1ssportplatz+meckingsen!3m5!1s0x47b97ceea973994d:0xcaf48e31eb2c236e!8m2!3d51.601772!4d8.071067!15sChVzcG9ydHBsYXR6IG1lY2tpbmdzZW6SAQxzb2NjZXJfZmllbGQ">
+                <h2>Gespielt wird auf dem Sportplatz des SVW Soest
+                    <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Spielverein+Westfalia+Soest/@51.5720731,8.0769372,17z/data=!3m1!4b1!4m5!3m4!1s0x47b9632b0233d907:0x4d401f967b3c66b9!8m2!3d51.5720164!4d8.079094">
                             zur Route
                         </a>
                 </h2>
