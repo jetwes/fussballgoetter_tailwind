@@ -219,7 +219,7 @@ class Practise extends Component
         if (!$practise)
             $practise = CurrentPractise::create([
                 'name'              => 'Montagstruppe',
-                'date_of_practise'  => Carbon::now()->startOfWeek()->addWeek()->setTime(19,00,00)
+                'date_of_practise'  => Carbon::now()->startOfWeek()->addWeek()->setTime(19,30,00)
             ]);
         return $practise;
     }
