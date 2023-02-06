@@ -2,68 +2,68 @@
     <div class="md:w-1/2 sm:w-full sm:mx-auto md:mx-auto">
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
-                @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr - Treffen: <strong>{{ $practise->date_of_practise->subMinutes(15)->format('H:i') }} Uhr</strong> @endif
-                <h2>Gespielt wird im Jahnstadion Soest
-                    <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Spielverein+Westfalia+Soest/@51.5720731,8.0769372,17z/data=!3m1!4b1!4m5!3m4!1s0x47b9632b0233d907:0x4d401f967b3c66b9!8m2!3d51.5720164!4d8.079094">
-                            zur Route
-                        </a>
-                </h2>
-                @if($practise)
-                        <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
-                        <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places')-(App\Seat::where('practise_id',$practise->id)->count()) + $practise->participators->where('places','>',0)->count()  }} / {{ $practise->participators->sum('places') }}</h3>
-                        <div x-show="showDrivers" style="display: none">
-                            <div class="overflow-x-auto">
-                                <div class="table min-w-full">
-                                    <table>
-                                        <thead>
-                                        <tr>
-                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Name</th>
-                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Aktion</th>
-                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Plätze</th>
-                                            <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Info</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        @foreach($practise->participators->where('places','>',0) as $driver)
-                                           <tr class="border">
-                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
-                                                    {{ $driver->user->name }}
-                                                </td>
-                                               <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
-                                                   @if(!(App\Seat::where('practise_id',$practise->id)->where('driver_id',Auth::id())->first()) && (isset($this->participation) && $this->participation->participate))
-                                                       @if(!App\Seat::where('user_id',Auth::id())->where('practise_id',$practise->id)->first())
-                                                           <a href="#" wire:click.prevent="takeSeat({{ $driver->id }})" title="Platz beanspruchen" class="text-green-500 hover:text-green-500">
-                                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                                                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                               </svg>
-                                                           </a>
-                                                       @else
-                                                           <a href="#" wire:click.prevent="leaveSeat({{ $driver->id }})" class="text-red-500 hover:text-red-600" title="Platz freigeben">
-                                                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
-                                                                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                               </svg>
-                                                           </a>
-                                                       @endif
+                @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr - Treffen: <strong>{{ $practise->date_of_practise->subMinutes(15)->format('H:i') }} Uhr</strong>
+                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') in Werl @else im Jahnstadion Soest @endif
+                        <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Spielverein+Westfalia+Soest/@51.5720731,8.0769372,17z/data=!3m1!4b1!4m5!3m4!1s0x47b9632b0233d907:0x4d401f967b3c66b9!8m2!3d51.5720164!4d8.079094">
+                                zur Route
+                            </a>
+                    </h2>
+
+                    <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
+                    <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places')-(App\Seat::where('practise_id',$practise->id)->count()) + $practise->participators->where('places','>',0)->count()  }} / {{ $practise->participators->sum('places') }}</h3>
+                    <div x-show="showDrivers" style="display: none">
+                        <div class="overflow-x-auto">
+                            <div class="table min-w-full">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Name</th>
+                                        <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Aktion</th>
+                                        <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Plätze</th>
+                                        <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">Info</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach($practise->participators->where('places','>',0) as $driver)
+                                       <tr class="border">
+                                            <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
+                                                {{ $driver->user->name }}
+                                            </td>
+                                           <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
+                                               @if(!(App\Seat::where('practise_id',$practise->id)->where('driver_id',Auth::id())->first()) && (isset($this->participation) && $this->participation->participate))
+                                                   @if(!App\Seat::where('user_id',Auth::id())->where('practise_id',$practise->id)->first())
+                                                       <a href="#" wire:click.prevent="takeSeat({{ $driver->id }})" title="Platz beanspruchen" class="text-green-500 hover:text-green-500">
+                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                                                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                           </svg>
+                                                       </a>
+                                                   @else
+                                                       <a href="#" wire:click.prevent="leaveSeat({{ $driver->id }})" class="text-red-500 hover:text-red-600" title="Platz freigeben">
+                                                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
+                                                               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                           </svg>
+                                                       </a>
                                                    @endif
-                                               </td>
-                                                <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
-                                                    <span class="font-bold">
-                                                        {{ $driver->places - (App\Seat::where('driver_id',$driver->user_id)->where('practise_id',$practise->id)->where('user_id','!=',$driver->user_id)->count()) }} / {{ $driver->places }}
-                                                    </span>
-                                                    @foreach(App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
-                                                        <br>
-                                                        {{ $seat->user->name }}
-                                                    @endforeach
-                                                </td>
-                                               <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->comment }}</td>
-                                           </tr>
-                                        @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
+                                               @endif
+                                           </td>
+                                            <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
+                                                <span class="font-bold">
+                                                    {{ $driver->places - (App\Seat::where('driver_id',$driver->user_id)->where('practise_id',$practise->id)->where('user_id','!=',$driver->user_id)->count()) }} / {{ $driver->places }}
+                                                </span>
+                                                @foreach(App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
+                                                    <br>
+                                                    {{ $seat->user->name }}
+                                                @endforeach
+                                            </td>
+                                           <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">{{ $driver->comment }}</td>
+                                       </tr>
+                                    @endforeach
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    @endif
+                    </div>
+                @endif
             </div>
 
             @if(session()->has('success-message') || session()->has('error-message'))
