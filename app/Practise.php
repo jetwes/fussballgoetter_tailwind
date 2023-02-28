@@ -32,7 +32,7 @@ class Practise extends Model
 
     public function cancellations()
     {
-        return $this->hasMany(Participation::class)->where('participate','=',0);
+        return $this->hasMany(Participation::class)->where('participate','=',0)->with(['user']);
     }
 
     public function draw()

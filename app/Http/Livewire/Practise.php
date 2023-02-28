@@ -209,7 +209,7 @@ class Practise extends Component
     public function getPractise()
     {
         $practise = CurrentPractise::where('date_of_practise','>=',Carbon::now()->subHours(4))->orderBy('date_of_practise','ASC')
-            ->with(['participations','participations.user','participators','seats','draw'])
+            ->with(['participations','participators','seats','draw', 'cancellations'])
             ->limit(1)->first();
         if (!$practise)
             $practise = CurrentPractise::create([

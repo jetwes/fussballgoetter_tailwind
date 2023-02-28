@@ -9,7 +9,8 @@
                             </a>
                     </h2>
 
-                    <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
+                    <h3 class="mt-2 font-medium text-2xl">Zusagen: {{ $practise->participators->count() }}</h3>
+                    <h3 class="mb-2 font-medium text-lg">Absagen: {{ $practise->cancellations->count() }}</h3>
                     <!--
                         <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places')-($practise->seats->count()) + $practise->participators->where('places','>',0)->count()  }} / {{ $practise->participators->sum('places') }}</h3>
                     -->
