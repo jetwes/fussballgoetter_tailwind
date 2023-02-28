@@ -27,7 +27,7 @@ class Practise extends Component
     /**
      * @var ?Participation|array
      */
-    public $beer;
+    protected $beer;
 
     public $participation;
 
@@ -147,24 +147,17 @@ class Practise extends Component
      */
     public function participate(bool $participate)
     {
-        $participation = Participation::where('practise_id',$this->practise->id)->where('user_id',auth()->id())->first();
-        if ($participation) {
-            $participation->participate = $participate;
+        if ($this->participation) {
+            $this->participation->participate = $participate;
             //reset beer if user is not participating
-            if ($participation->beer == true && $participate === false)
-                $participation->beer = false;
-            if ($participate == false) {
-                $participation->places = 0;
-                $participation->comment = null;
+            if ($this->participation->beer && $participate === false)
+                $this->participation->beer = false;
+            if (!$participate) {
                 $this->participation->places = 0;
                 $this->participation->comment = null;
-                $this->participation->participate = false;
                 Seat::where('practise_id',$this->participation->practise_id)->where('user_id',Auth::id())->delete();
             }
-            if ($participate)
-                $this->participation->participate = true;
-            $participation->save();
-            $this->getBeer();
+            $this->participation->save();
             if (!$participate)
                 session()->flash('error-message','Du hast dich erfolgreich abgemeldet.');
             else
@@ -177,6 +170,8 @@ class Practise extends Component
             ]);
             session()->flash('success-message','Du hast dich erfolgreich angemeldet.');
         }
+        $this->practise->load('participations');
+        $this->practise->load('participators');
     }
 
     /**
@@ -214,12 +209,12 @@ class Practise extends Component
     public function getPractise()
     {
         $practise = CurrentPractise::where('date_of_practise','>=',Carbon::now()->subHours(4))->orderBy('date_of_practise','ASC')
-            ->with(['participations','participations.user','participators'])
+            ->with(['participations','participations.user','participators','seats','draw'])
             ->limit(1)->first();
         if (!$practise)
             $practise = CurrentPractise::create([
-                'name'              => 'Montagstruppe',
-                'date_of_practise'  => Carbon::now()->startOfWeek()->addDay()->addWeek()->setTime(19,30,00)
+                'name'              => 'Fussballgötter',
+                'date_of_practise'  => Carbon::now()->startOfWeek()->addDays(2)->addWeek()->setTime(19,30,00)
             ]);
         return $practise;
     }
@@ -230,7 +225,7 @@ class Practise extends Component
     public function getBeer()
     {
         if ($this->practise)
-           $this->beer = Participation::where('practise_id',$this->practise->id)->where('beer',true)->first();
+           $this->beer = $this->practise->participations->where('beer',true)->first();
         else $this->beer = null;
     }
 
@@ -255,7 +250,6 @@ class Practise extends Component
     {
         $this->practise = $this->getPractise();
         $this->birthdays = $this->getBirthdays();
-        $this->getBeer();
     }
 
     /**
@@ -263,16 +257,20 @@ class Practise extends Component
      */
     public function render()
     {
-        if(count($this->propertyHashes) !== 0) {
-            $this->practise = $this->getPractise();
-        }
+
+        $this->getBeer();
         if ($this->practise && !$this->participation) {
-            $this->participation = Participation::where('practise_id', $this->practise->id)->where('user_id', auth()->id())->first();
+           // dd(in_array(auth()->id(), $this->practise->participations->pluck('user_id')->toArray()));
+            $this->participation = $this->practise->participations->where('user_id', auth()->id())->first();//Participation::where('practise_id', $this->practise->id)->where('user_id', auth()->id())->first();
             if($this->participation) {
                 $this->places = $this->participation->places;
                 $this->comment = $this->participation->comment;
             }
         }
-        return view('livewire.practise');
+        return view('livewire.practise', [
+            //'practise'  => $this->practise,
+            'beer'      => $this->beer,
+            //'participation' => $this->participation
+        ]);
     }
 }

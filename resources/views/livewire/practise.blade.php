@@ -10,7 +10,10 @@
                     </h2>
 
                     <h3 class="mb-2 font-medium mt-2 text-2xl">Aktuelle Teilnehmerzahl: {{ $practise->participators->count() }}</h3>
-                    <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places')-(App\Seat::where('practise_id',$practise->id)->count()) + $practise->participators->where('places','>',0)->count()  }} / {{ $practise->participators->sum('places') }}</h3>
+                    <!--
+                        <h3 class="mb-2 font-medium mt-2 text-2xl" @click="showDrivers = !showDrivers">Klicken um Fahrer und Plätze zu sehen: {{ $practise->participators->sum('places')-($practise->seats->count()) + $practise->participators->where('places','>',0)->count()  }} / {{ $practise->participators->sum('places') }}</h3>
+                    -->
+                    @if(1 === 2)
                     <div x-show="showDrivers" style="display: none">
                         <div class="overflow-x-auto">
                             <div class="table min-w-full">
@@ -30,8 +33,8 @@
                                                 {{ $driver->user->name }}
                                             </td>
                                            <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
-                                               @if(!(App\Seat::where('practise_id',$practise->id)->where('driver_id',Auth::id())->first()) && (isset($this->participation) && $this->participation->participate))
-                                                   @if(!App\Seat::where('user_id',Auth::id())->where('practise_id',$practise->id)->first())
+                                               @if(!($practise->seats->where('driver_id', auth()->id())->first()) && (isset($this->participation) && $this->participation->participate))
+                                                   @if(!$practise->seats->where('user_id', auth()->id())->first())
                                                        <a href="#" wire:click.prevent="takeSeat({{ $driver->id }})" title="Platz beanspruchen" class="text-green-500 hover:text-green-500">
                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-6 w-6">
                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -48,9 +51,9 @@
                                            </td>
                                             <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
                                                 <span class="font-bold">
-                                                    {{ $driver->places - (App\Seat::where('driver_id',$driver->user_id)->where('practise_id',$practise->id)->where('user_id','!=',$driver->user_id)->count()) }} / {{ $driver->places }}
+                                                    {{ $driver->places - ($practise->seats->where('user_id', '!=', $driver->user_id)->count()) }} / {{ $driver->places }}
                                                 </span>
-                                                @foreach(App\Seat::where('practise_id',$practise->id)->where('driver_id',$driver->user_id)->whereNotIn('user_id',App\Seat::where('practise_id',$practise->id)->pluck('driver_id')->toArray())->get() as $seat)
+                                                @foreach($practise->seats->where('driver_id', $driver->user_id)->where('user_id', '!=', $driver->user_id) as $seat)
                                                     <br>
                                                     {{ $seat->user->name }}
                                                 @endforeach
@@ -63,6 +66,7 @@
                             </div>
                         </div>
                     </div>
+                    @endif
                 @endif
             </div>
 
@@ -107,18 +111,14 @@
                 @endif
                 @if($practise)
                     <div class="mt-2">
-                        <div class="grid grid-cols-2">
-                            <h3 class="mb-4 col-span-1">Meine Auswahl:</h3>
-                            <div class="col-span-1">
-                                <a wire:click="participate(true)"><button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">JA</button></a>&nbsp;
-                                <a wire:click="participate(false)"><button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">NEIN</button></a>
+                        <div class="justify-center text-center items-center align-content-center">
+                            <a wire:click="participate(true)"><button class="inline-flex items-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">JA</button></a>&nbsp;
+                            <a wire:click="participate(false)"><button class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">NEIN</button></a>
 
-                                @if(\App\Draw::where('practise_id',$practise->id)->first())
-                                    <a href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">Auslosung anzeigen!</button></strong></a>
-                                @endif
-                            </div>
+                            @if($practise->draw)
+                                <a href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">Auslosung anzeigen!</button></strong></a>
+                            @endif
                         </div>
-
                         @if(1 == 2)
                         <div class="grid grid-cols-2 mt-4">
                             @if(!$beer && isset($this->participation) && $this->participation->participate)
@@ -142,7 +142,7 @@
                         </div>
                         @endif
 
-                        @if($this->participation && $this->participation->participate)
+                        @if($this->participation && $this->participation->participate && 1 === 2)
                             <div>
                                 <div class="grid grid-cols-2 mt-4">
                                     <h3 class="mb-4 col-span-1 mr-4">Ich kann fahren</h3>
@@ -161,9 +161,9 @@
                                         Nein, doch nicht
                                     </button>
                                     <label x-show="showDrive" style="display: none" class="col-span-1 mr-4 mt-4" for="drive_places">Freie Plätze</label>
-                                    <input x-show="showDrive" style="display: none" title="Freie Plätze" class="mt-4 form-input block w-full pr-10 sm:text-sm sm:leading-5" placeholder="0" id="showDrive" wire:model="places">
+                                    <input x-show="showDrive" style="display: none" type="number" title="Freie Plätze" class="mt-4 form-input block w-full pr-10 sm:text-sm sm:leading-5" placeholder="0" id="showDrive" wire:model="places">
                                     <label x-show="showDrive" style="display: none" for="comment" class="mt-4">Info</label>
-                                    <input x-show="showDrive" style="display: none" title="Kommentar" class="mt-4 form-input block w-full pr-10 sm:text-sm sm:leading-5" id="comment" placeholder="Info Treffpunkt/Zeit" wire:model="comment">
+                                    <input x-show="showDrive" style="display: none" type="text" title="Kommentar" class="mt-4 form-input block w-full pr-10 sm:text-sm sm:leading-5" id="comment" placeholder="Info Treffpunkt/Zeit" wire:model="comment">
                                 </div>
                             </div>
 
@@ -173,38 +173,42 @@
                 @endif
             </div>
             @if($practise)
-                @if((\Auth::user()->name == 'T-Man' || \Auth::user()->name == 'Übungsleiter') && !\App\Draw::where('practise_id',$practise->id)->first() && (\Carbon\Carbon::now() >= $practise->date_of_practise->subHours(3)))
+                @if((\Auth::user()->name == 'T-Man' || \Auth::user()->name == 'Übungsleiter') && !$practise->draw && (\Carbon\Carbon::now() >= $practise->date_of_practise->subHours(3)))
                     <a target="_blank" class="mt-8" wire:click.prevent="shuffle({{ $practise->id }})" href="#"><strong><button class="bg-green-500 hover:bg-grren-600 text-white font-bold py-2 px-4 rounded mt-4 mb-4">Teams losen - Achtung nur 1 mal möglich!</button></strong></a>
                 @endif
             @endif
             <div>
-                <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                    <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg">
-                        <table class="min-w-full">
-                            <thead>
-                            <tr class="border-b border-gray-700 grid grid-cols-5">
-                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-4">
-                                    Name
-                                </th>
-                                <th class="px-4 py-3 bg-gray-50 text-left text-xs leading-4 font-bold text-black uppercase tracking-wider col-span-1">
-                                    Status
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @if($practise)
-                                @foreach($practise->participations as $participator)
-                                    <tr class="@if($loop->even) bg-white @else bg-gray-50 @endif grid grid-cols-5">
-                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 col-span-4">
-                                            <img alt="Bild {{ $participator->user->name }}"
-                                                 src="{{ $participator->user->avatar }}"
-                                                 class="h-10 w-10 rounded-full float-left mr-2"> <span class="float-left">{{ $participator->user->name }}</span></td>
-                                        <td class="px-4 py-2 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900 @if($participator->participate) bg-green-500 @else bg-red-500 @endif col-span-1"></td>
-                                    </tr>
-                                @endforeach
-                            @endif
-                            </tbody>
-                        </table>
+                <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+                    <h2 class="sr-only">Products</h2>
+
+                    <div class="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                        @if($practise)
+                            @foreach($practise->participations as $participator)
+                                <a href="#" class="group">
+                                    <div class="aspect-w-1 aspect-h-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-w-7 xl:aspect-h-8">
+                                        <img alt="Bild {{ $participator->user->name }}"
+                                             src="{{ $participator->user->avatar }}"
+                                             class="h-full w-full object-cover object-center group-hover:opacity-75">
+                                    </div>
+                                    <h3 class="mt-4 text-sm text-gray-700 inline-flex justify-center items-center">
+                                        @if($participator->participate)
+                                            <span class="mr-2 text-green-600">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </span>
+                                        @else
+                                            <span class="ml-r text-red-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                                                  <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                </svg>
+                                            </span>
+                                        @endif
+                                        {{ $participator->user->name }}
+                                    </h3>
+                                </a>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>

@@ -22,12 +22,12 @@ class Practise extends Model
      */
     public function participations()
     {
-        return $this->hasMany(Participation::class);
+        return $this->hasMany(Participation::class)->with(['user'])->orderBy('participate', 'DESC')->orderBy('id', 'ASC');
     }
 
     public function participators()
     {
-        return $this->hasMany(Participation::class)->where('participate','=',1);
+        return $this->hasMany(Participation::class)->where('participate','=',1)->with(['user']);
     }
 
     public function cancellations()

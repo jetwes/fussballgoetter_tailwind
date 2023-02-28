@@ -1,4 +1,5 @@
-<!doctype html>
+@php use Carbon\Carbon; @endphp
+    <!doctype html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="utf-8">
@@ -13,7 +14,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
     @yield('js-head')
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -32,7 +33,7 @@
   <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
     <div class="mt-8 md:mt-0 md:order-1">
       <p class="text-center text-base leading-6 text-gray-400">
-        &copy; 2020 Jens Twesmann, Quelltext/source code: <a href="https://github.com/jetwes/fussballgoetter_tailwind" class="hover:font-bold">Github Repository</a>
+        &copy; {{ Carbon::now()->year }} Jens Twesmann, Quelltext/source code: <a href="https://github.com/jetwes/fussballgoetter_tailwind" class="hover:font-bold">Zum Github Repository</a>
       </p>
     </div>
   </div>
