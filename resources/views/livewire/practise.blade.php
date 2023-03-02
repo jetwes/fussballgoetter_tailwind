@@ -177,7 +177,7 @@
                 @if((\Auth::user()->name == 'T-Man' || \Auth::user()->name == 'Übungsleiter') && !$practise->draw && (\Carbon\Carbon::now() >= $practise->date_of_practise->subHours(3)))
                     <a target="_blank" class="mt-8" wire:click.prevent="shuffle({{ $practise->id }})" href="#"><strong><button class="bg-green-500 hover:bg-grren-600 text-white font-bold py-2 px-4 rounded mt-4 mb-4">Teams losen - Achtung nur 1 mal möglich!</button></strong></a>
                 @endif
-                <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 md:hidden">
                     <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg">
                         <table class="min-w-full">
                             <thead>
@@ -207,9 +207,9 @@
                     </div>
                 </div>
             @endif
-            <div>
+            <div class="hidden md:block">
                 <div class="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
-                    <div class="grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 xl:gap-x-8">
+                    <div class="grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-6 xl:gap-x-8">
                         @if($practise)
                             @foreach($practise->participations as $participator)
                                 <a href="#" class="group">
