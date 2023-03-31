@@ -214,7 +214,7 @@ class Practise extends Component
         if (!$practise)
             $practise = CurrentPractise::create([
                 'name'              => 'Fussballgötter',
-                'date_of_practise'  => Carbon::now()->startOfWeek()->addDays(2)->addWeek()->setTime(19,30,00)
+                'date_of_practise'  => Carbon::now()->startOfWeek()->addWeek()->setTime(19,30,00)
             ]);
         return $practise;
     }
