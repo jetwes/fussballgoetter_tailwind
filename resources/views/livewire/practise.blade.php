@@ -3,7 +3,7 @@
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
                 @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr - Treffen: <strong>{{ $practise->date_of_practise->subMinutes(15)->format('H:i') }} Uhr</strong>
-                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') in Werl @else im Jahnstadion Soest @endif
+                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') am Ardey @else im Jahnstadion Soest @endif
                         <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Spielverein+Westfalia+Soest/@51.5720731,8.0769372,17z/data=!3m1!4b1!4m5!3m4!1s0x47b9632b0233d907:0x4d401f967b3c66b9!8m2!3d51.5720164!4d8.079094">
                                 zur Route
                             </a>
