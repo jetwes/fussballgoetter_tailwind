@@ -168,7 +168,7 @@ class Practise extends Component
                 'practise_id' => $this->practise->id,
                 'participate' => $participate,
             ]);
-            session()->flash('success-message','Du hast dich erfolgreich angemeldet.');
+            session()->flash('success-message','Deine Buchung wurde gespeichert.');
         }
         $this->practise->load('participations');
         $this->practise->load('participators');
