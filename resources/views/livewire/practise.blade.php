@@ -3,11 +3,18 @@
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
                 @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr - Treffen: <strong>{{ $practise->date_of_practise->subMinutes(15)->format('H:i') }} Uhr</strong>
-                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') am Ardey @else im Jahnstadion Soest @endif
+                    <!--<h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') am Ardey @else im Jahnstadion Soest @endif
                         <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Spielverein+Westfalia+Soest/@51.5720731,8.0769372,17z/data=!3m1!4b1!4m5!3m4!1s0x47b9632b0233d907:0x4d401f967b3c66b9!8m2!3d51.5720164!4d8.079094">
                                 zur Route
                             </a>
-                    </h2>
+                    </h2>-->
+                <h2>Gespielt wird im Sporthotel Maifeld
+                    <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Maifeld+Sport-+und+Tagungshotel/@51.5662155,7.890459,17z/data=!3m1!5s0x47b96fead0eecab3:0xaeb0f360dce7f739!4m20!1m10!3m9!1s0x47b96fead8f42981:0x154a958252c0b248!2sMaifeld+Sport-+und+Tagungshotel!5m2!4m1!1i2!8m2!3d51.5662155!4d7.8930339!16s%2Fg%2F1tfhypk6!3m8!1s0x47b96fead8f42981:0x154a958252c0b248!5m2!4m1!1i2!8m2!3d51.5662155!4d7.8930339!16s%2Fg%2F1tfhypk6?entry=ttu">
+                        zur Route
+                    </a>
+                    <br>Die Anmeldung ist bis <strong>{{ $practise->date_of_practise->subDays(2)->format('d.m.Y H:i') }} Uhr</strong> möglich.
+                </h2>
+
 
                     <h3 class="mt-2 font-medium text-2xl">Zusagen: {{ $practise->participators->count() }}</h3>
                     <h3 class="mb-2 font-medium text-lg">Absagen: {{ $practise->cancellations->count() }}</h3>
@@ -113,8 +120,8 @@
                 @if($practise)
                     <div class="mt-2">
                         <div class="justify-center text-center items-center align-content-center">
-                            <a wire:click="participate(true)"><button class="inline-flex items-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">JA</button></a>&nbsp;
-                            <a wire:click="participate(false)"><button class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">NEIN</button></a>
+                            <a wire:click="participate(true)" role="link"><button @if(\Carbon\Carbon::now() > $practise->date_of_practise->subDays(2)) disabled @endif class="disabled:bg-gray-500 inline-flex items-center rounded-md border border-transparent bg-green-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">JA</button></a>&nbsp;
+                            <a wire:click="participate(false)" role="link"><button class="inline-flex items-center rounded-md border border-transparent bg-red-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">NEIN</button></a>
 
                             @if($practise->draw)
                                 <a href="{{ route('shuffle',['id' => $practise->id]) }}"><strong><button class="bg-orange-400 hover:bg-orange-500 text-white font-bold py-2 px-4 rounded">Auslosung anzeigen!</button></strong></a>
