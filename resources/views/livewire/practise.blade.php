@@ -3,7 +3,7 @@
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
                 @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr - Treffen: <strong>{{ $practise->date_of_practise->subMinutes(15)->format('H:i') }} Uhr</strong>
-                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') im Sporthotel Maifeld in Werl @else im Jahnstadion Soest @endif
+                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') im Sporthotel Maifeld in Werl @else im Sporthotel Maifeld in Werl @endif
                         <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Maifeld+Sport-+und+Tagungshotel/@51.5664956,7.8897724,985m/data=!3m3!1e3!4b1!5s0x47b96fead0eecab3:0xaeb0f360dce7f739!4m9!3m8!1s0x47b96fead8f42981:0x154a958252c0b248!5m2!4m1!1i2!8m2!3d51.5664956!4d7.8923473!16s%2Fg%2F1tfhypk6?entry=ttu&g_ep=EgoyMDI1MTEwNS4wIKXMDSoASAFQAw%3D%3D">
                                 zur Route
                             </a>
