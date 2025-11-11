@@ -3,11 +3,11 @@
         <div class="">
             <div class="font-medium text-lg text-indigo-700 bg-brand px-3 py-2 rounded-t" x-data="{ showDrivers: false }">
                 @if($practise){{ $practise->date_of_practise->format('d.m.Y H:i') }} Uhr - Treffen: <strong>{{ $practise->date_of_practise->subMinutes(15)->format('H:i') }} Uhr</strong>
-                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') im Jahnstadion Soest @else im Jahnstadion Soest @endif
-                        <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Jahnstadion/@51.5650845,8.0992197,985m/data=!3m2!1e3!4b1!4m6!3m5!1s0x47b962c8def1a833:0x1a58f6aa14bbbefa!8m2!3d51.5650846!4d8.1040906!16s%2Fg%2F1vwln6zp?entry=ttu&g_ep=EgoyMDI1MDgxOS4wIKXMDSoASAFQAw%3D%3D">
+                    <h2>Gespielt wird @if($practise->date_of_practise->dayName == 'monday' || $practise->date_of_practise->dayName == 'Monday' || $practise->date_of_practise->dayName == 'Montag') im Sporthotel Maifeld in Werl @else im Jahnstadion Soest @endif
+                        <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Maifeld+Sport-+und+Tagungshotel/@51.5664956,7.8897724,985m/data=!3m3!1e3!4b1!5s0x47b96fead0eecab3:0xaeb0f360dce7f739!4m9!3m8!1s0x47b96fead8f42981:0x154a958252c0b248!5m2!4m1!1i2!8m2!3d51.5664956!4d7.8923473!16s%2Fg%2F1tfhypk6?entry=ttu&g_ep=EgoyMDI1MTEwNS4wIKXMDSoASAFQAw%3D%3D">
                                 zur Route
                             </a>
-                        <br>Die Anmeldung ist bis <strong>{{ $practise->date_of_practise->subHours(3)->format('d.m.Y H:i') }} Uhr</strong> möglich.
+                        <br>Die Anmeldung ist bis <strong>{{ $practise->date_of_practise->subHours(4)->format('d.m.Y H:i') }} Uhr</strong> möglich.
                     </h2>
                 <!--<h2>Gespielt wird im Sporthotel Maifeld
                     <a class="hover:font-bold underline" title="Route" href="https://www.google.de/maps/place/Maifeld+Sport-+und+Tagungshotel/@51.5662155,7.890459,17z/data=!3m1!5s0x47b96fead0eecab3:0xaeb0f360dce7f739!4m20!1m10!3m9!1s0x47b96fead8f42981:0x154a958252c0b248!2sMaifeld+Sport-+und+Tagungshotel!5m2!4m1!1i2!8m2!3d51.5662155!4d7.8930339!16s%2Fg%2F1tfhypk6!3m8!1s0x47b96fead8f42981:0x154a958252c0b248!5m2!4m1!1i2!8m2!3d51.5662155!4d7.8930339!16s%2Fg%2F1tfhypk6?entry=ttu">
