@@ -1,84 +1,59 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
-
+use App\Mail\TemporaryPasswordMail;
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\User;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
+/**
+ * "Passwort vergessen": Es wird ein temporäres Passwort per E-Mail verschickt,
+ * das erst nach Klick auf den Bestätigungslink aktiv wird.
+ */
 class PasswordController extends Controller
 {
-    public function forgotEmail(Request $request)
+    public function forgot(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(),
-            [
-                'email' => 'required|email',
-            ]
-        );
+        $validated = $request->validate([
+            'email' => ['required', 'email'],
+        ]);
 
-        if ($validator->fails()) {
-            return Redirect::back()->withErrors($validator)->withInput();
-        } else { //change the password
-            $user = User::where('email', '=', $request->input('email'))->first();
+        $user = User::where('email', $validated['email'])->first();
 
-            if ($user) {
-
-                //generate new code and password
-                $code = Str::random(60);
-                $temp_password = Str::random(10);
-
-                $user->code = $code;
-                $user->password_temp = Hash::make($temp_password);
-
-                if ($user->save()) {
-                    Mail::send('emails.reminder',
-                        [
-                            'link'          => URL::route('user-recover', $code),
-                            'username'      => $user->name,
-                            'email'         => $user->email,
-                            'temp_password' => $temp_password,
-                        ],
-                        function ($message) use ($user) {
-                            $message->to($user->email, $user->username)->subject('Dein neuns Fußballgötter Password');
-                        });
-
-                    return Redirect::to('/login')
-                        ->with('success-message', 'Wir haben dir eine eMail mit deinem neuen Password gesendet');
-                }
-            }
-
-            return Redirect::route('user-password-forgot')
-                ->with('success-message', 'Die eMail-Adresse konnte nicht gefunden werden.');
-        }
-    }
-
-    public function getRecover($code)
-    {
-        $user = User::where('code', '=', $code)
-            ->where('password_temp', '!=', '');
-
-        if ($user->count()) {
-            $user = $user->first();
-
-            $user->password = $user->password_temp;
-            $user->password_temp = '';
-            $user->code = '';
-
-            if ($user->save()) {
-                return Redirect::to('/login')
-                    ->with('success-message', 'Ihr Account wurde zurückgesetzt. Sie können Sie nun mit Ihrem neuen Passwort einloggen.');
-            }
+        if (! $user) {
+            return redirect()->route('login')->with('error-message', 'Die E-Mail-Adresse konnte nicht gefunden werden.');
         }
 
-        return Redirect::to('/login')
-            ->with('error-message', 'Ihr Account konnte nicht zurück gesetzt werden.');
+        $temporaryPassword = Str::random(10);
+
+        $user->forceFill([
+            'code' => Str::random(60),
+            'password_temp' => Hash::make($temporaryPassword),
+        ])->save();
+
+        Mail::to($user)->send(new TemporaryPasswordMail($user, $temporaryPassword));
+
+        return redirect()->route('login')->with('success-message', 'Wir haben dir eine E-Mail mit deinem neuen Passwort gesendet.');
     }
 
+    public function recover(string $code): RedirectResponse
+    {
+        $user = User::where('code', $code)->whereNotNull('password_temp')->where('password_temp', '!=', '')->first();
+
+        if (! $user) {
+            return redirect()->route('login')->with('error-message', 'Dein Account konnte nicht zurückgesetzt werden.');
+        }
+
+        $user->forceFill([
+            'password' => $user->password_temp, // bereits gehasht
+            'password_temp' => null,
+            'code' => null,
+        ])->save();
+
+        return redirect()->route('login')->with('success-message', 'Dein Passwort wurde zurückgesetzt. Du kannst dich jetzt mit dem neuen Passwort anmelden.');
+    }
 }

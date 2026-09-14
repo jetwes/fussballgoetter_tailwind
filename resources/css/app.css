@@ -1,0 +1,27 @@
+@import 'tailwindcss';
+@import '../../vendor/livewire/flux/dist/flux.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@source '../../app';
+
+@theme {
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Markenfarbe (Violett aus dem Logo) als Flux-Akzent */
+    --color-accent: var(--color-violet-600);
+    --color-accent-content: var(--color-violet-700);
+    --color-accent-foreground: var(--color-white);
+}
+
+@layer theme {
+    .dark {
+        --color-accent: var(--color-violet-500);
+        --color-accent-content: var(--color-violet-300);
+        --color-accent-foreground: var(--color-white);
+    }
+}
+
+[x-cloak] {
+    display: none !important;
+}

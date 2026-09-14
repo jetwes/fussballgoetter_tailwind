@@ -15,7 +15,7 @@ class AddPlacesFieldToParticipation extends Migration
     {
         Schema::table('participations', function (Blueprint $table) {
             $table->unsignedSmallInteger('places')->default(0);
-            //$table->string('comment');
+            // $table->string('comment');
         });
     }
 

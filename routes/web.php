@@ -1,54 +1,27 @@
 <?php
 
+use App\Http\Controllers\DrawController;
+use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ProfileController;
+use App\Livewire\Practise;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-Auth::routes();
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes(['reset' => false, 'confirm' => false, 'verify' => false]);
 
-Route::post('/user/forgot-password', [
-    'as'    => 'user-password-forgot-post',
-    'uses'  => 'PasswordController@forgotEmail',
-]);
+Route::post('user/forgot-password', [PasswordController::class, 'forgot'])->name('user-password-forgot');
+Route::get('user/recover/{code}', [PasswordController::class, 'recover'])->name('user-recover');
 
-Route::get('/user/recover/{code}', [
-    'as'    => 'user-recover',
-    'uses'  => 'PasswordController@getRecover',
-]);
+Route::middleware('auth')->group(function () {
+    Route::livewire('/', Practise::class)->name('home');
+    Route::redirect('/home', '/');
 
-Route::get('change-avatar',function (){
-    return view('user.avatar');
-})->name('change-avatar')
-    ->middleware('auth');
-Route::post('change-avatar',[\App\Http\Controllers\UserController::class,'changeAvatar'])
-    ->name('change-avatar')
-    ->middleware('auth');
+    Route::get('draw/{practise}', [DrawController::class, 'show'])->name('shuffle');
+    Route::get('shuffle/{practise}', fn (App\Models\Practise $practise) => redirect()->route('shuffle', $practise));
 
-
-Route::get('change-password',function (){
-    return view('user.password');
-})->name('change-password')
-    ->middleware('auth');
-Route::post('change-password',[\App\Http\Controllers\UserController::class,'changePassword'])
-    ->name('change-password')
-    ->middleware('auth');
-
-
-Route::get('/', 'HomeController@index')->name('home');
-
-Route::get('participate/{id}', 'ParticipationController@detail')->name('participate')->middleware('auth');
-
-Route::get('shuffle/{id}', 'ParticipationController@shuffle')->name('shuffle')->middleware('auth');
-
-Route::get('participations','ParticipationController@index')->name('participations')->middleware('auth');
-
-Route::get('logout', 'Auth\LoginController@logout');
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::post('profile', [ProfileController::class, 'update'])->name('change-password');
+    Route::post('profile/avatar', [ProfileController::class, 'updateAvatar'])->name('change-avatar');
+    Route::redirect('change-avatar', 'profile');
+    Route::redirect('change-password', 'profile');
+});
