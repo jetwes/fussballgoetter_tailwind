@@ -1,9 +1,11 @@
 <?php
 
+use App\Livewire\AvatarUploader;
 use App\Models\User;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Livewire\Livewire;
 
 use function Pest\Laravel\actingAs;
 
@@ -35,13 +37,25 @@ it('validates the birthday format', function () {
         ->assertSessionHasErrors('birthday');
 });
 
-it('stores a resized avatar', function () {
+it('renders the profile page with the avatar uploader', function () {
+    actingAs(User::factory()->create())
+        ->get(route('profile'))
+        ->assertOk()
+        ->assertSeeLivewire(AvatarUploader::class)
+        ->assertSee('Push-Benachrichtigungen');
+});
+
+it('stores a cropped and resized avatar', function () {
     Storage::fake('avatars');
     $user = User::factory()->create();
 
-    actingAs($user)
-        ->post(route('change-avatar'), ['avatar' => UploadedFile::fake()->image('me.png', 800, 600)])
-        ->assertRedirect(route('home'));
+    Livewire::actingAs($user)
+        ->test(AvatarUploader::class)
+        ->set('photo', UploadedFile::fake()->image('me.png', 800, 600))
+        ->assertHasNoErrors()
+        ->call('save', ['x' => 100, 'y' => 50, 'width' => 400, 'height' => 400])
+        ->assertHasNoErrors()
+        ->assertRedirect(route('profile'));
 
     $user->refresh();
 
@@ -49,4 +63,14 @@ it('stores a resized avatar', function () {
         ->and($user->avatar_url)->toBe($user->avatar);
 
     Storage::disk('avatars')->assertExists(basename($user->avatar));
+
+    [$width, $height] = getimagesizefromstring(Storage::disk('avatars')->get(basename($user->avatar)));
+    expect($width)->toBe(240)->and($height)->toBe(240);
+});
+
+it('rejects non-image uploads', function () {
+    Livewire::actingAs(User::factory()->create())
+        ->test(AvatarUploader::class)
+        ->set('photo', UploadedFile::fake()->create('doc.pdf', 100, 'application/pdf'))
+        ->assertHasErrors('photo');
 });

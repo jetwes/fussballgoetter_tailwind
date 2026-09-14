@@ -7,6 +7,7 @@ use App\Models\Participation;
 use App\Models\Practise as PractiseModel;
 use App\Models\Seat;
 use App\Models\User;
+use App\Notifications\TeamsDrawn;
 use Flux\Flux;
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Computed;
@@ -230,11 +231,16 @@ class Practise extends Component
             return;
         }
 
-        Draw::createFromNames(
+        $draw = Draw::createFromNames(
             $practise,
             $practise->participators->map(fn (Participation $participation) => $participation->user->name)->all(),
             auth()->user(),
         );
+
+        $practise->participators
+            ->map(fn (Participation $participation) => $participation->user)
+            ->filter(fn (User $user) => $user->pushSubscriptions()->exists())
+            ->each(fn (User $user) => $user->notify(new TeamsDrawn($draw)));
 
         $this->redirectRoute('shuffle', $practise, navigate: false);
     }

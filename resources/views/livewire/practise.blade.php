@@ -4,7 +4,7 @@
     $registrationOpen = $practise->isRegistrationOpen();
 @endphp
 
-<div class="space-y-6">
+<div class="space-y-6" wire:poll.30s>
     {{-- Kopfbereich --}}
     <flux:card class="overflow-hidden p-0!">
         <div class="bg-linear-to-br from-violet-600 via-violet-700 to-indigo-800 px-6 py-6 text-white sm:px-8">
@@ -33,7 +33,7 @@
                         </dd>
                     </div>
                 </div>
-                <div class="flex items-start gap-2">
+                <div class="flex items-start gap-2" x-data="countdown(@js($practise->registrationDeadline()->toIso8601String()))" wire:ignore>
                     <flux:icon.calendar variant="mini" class="mt-0.5 shrink-0 text-violet-200" />
                     <div>
                         <dt class="text-violet-200">Anmeldung</dt>
@@ -43,6 +43,11 @@
                             @else
                                 geschlossen
                             @endif
+                        </dd>
+                        <dd class="mt-1">
+                            <span x-text="label" x-cloak
+                                  class="inline-block rounded-full px-2 py-0.5 text-xs font-semibold"
+                                  x-bind:class="closed ? 'bg-white/15 text-violet-100' : (urgent ? 'animate-pulse bg-amber-400 text-amber-950' : 'bg-white/15 text-white')"></span>
                         </dd>
                     </div>
                 </div>
@@ -104,7 +109,7 @@
             @if ($practise->draw || $this->canDraw)
                 <div class="flex flex-wrap items-center justify-center gap-3 border-t border-zinc-200 pt-4 dark:border-zinc-700">
                     @if ($practise->draw)
-                        <flux:button href="{{ route('shuffle', $practise) }}" variant="filled" color="amber" icon="trophy">Auslosung anzeigen</flux:button>
+                        <flux:button href="{{ route('shuffle', $practise) }}" variant="filled" color="amber" icon="trophy" wire:navigate>Auslosung anzeigen</flux:button>
                     @elseif ($this->canDraw)
                         <flux:button
                             wire:click="shuffle"
@@ -121,6 +126,19 @@
             @endif
         </div>
     </flux:card>
+
+    {{-- Push-Hinweis --}}
+    <div x-data="{ dismissed: localStorage.getItem('push-hint-dismissed') === '1' }" x-show="! dismissed" x-cloak>
+        <div x-data="pushToggle" x-show="supported && ! enabled && ! denied" x-cloak>
+            <flux:callout icon="bell" color="violet" heading="Nichts mehr verpassen">
+                <flux:callout.text>Wir erinnern dich per Push, wenn du dich noch nicht gemeldet hast, und sagen Bescheid, sobald die Teams gelost sind.</flux:callout.text>
+                <x-slot name="actions">
+                    <flux:button x-on:click="toggle" x-bind:disabled="busy" size="sm" variant="primary">Aktivieren</flux:button>
+                    <flux:button x-on:click="dismissed = true; localStorage.setItem('push-hint-dismissed', '1')" size="sm" variant="ghost">Später</flux:button>
+                </x-slot>
+            </flux:callout>
+        </div>
+    </div>
 
     {{-- Geburtstage --}}
     @if ($this->birthdays->isNotEmpty())

@@ -29,6 +29,6 @@
             @endforeach
         </div>
 
-        <flux:button href="{{ route('home') }}" variant="ghost" icon="arrow-left">Zurück zum Training</flux:button>
+        <flux:button href="{{ route('home') }}" variant="ghost" icon="arrow-left" wire:navigate>Zurück zum Training</flux:button>
     </div>
 </x-layouts::app>

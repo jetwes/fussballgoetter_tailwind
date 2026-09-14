@@ -45,6 +45,11 @@ return [
     |--------------------------------------------------------------------------
     */
 
+    'notifications' => [
+        // Stunden vor Ablauf der Anmeldefrist, zu denen Unentschlossene per Push erinnert werden.
+        'reminder_hours_before_deadline' => [24, 3],
+    ],
+
     'features' => [
         // "Ich bringe Bier mit"
         'beer' => (bool) env('FEATURE_BEER', false),
