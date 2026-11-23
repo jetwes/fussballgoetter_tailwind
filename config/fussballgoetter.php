@@ -16,8 +16,8 @@ return [
         'name' => 'Fußballgötter',
         'weekday' => 1,
         'time' => '19:30',
-        'location' => 'Sportplatz am Ardey',
-        'maps_url' => 'https://www.google.de/maps/dir/M%C3%A4dchen-+und+Frauen-+Fu%C3%9Fball+Club+Soest,+Ardeyweg+33,+59494+Soest/M%C3%A4dchen-+und+Frauen-+Fu%C3%9Fball+Club+Soest,+Ardeyweg+33,+59494+Soest/@51.5727613,8.0817294,15z/data=!4m14!4m13!1m5!1m1!1s0x47b962c855e7097f:0x85986edeaed34887!2m2!1d8.0788334!2d51.5720021!1m5!1m1!1s0x47b962c855e7097f:0x85986edeaed34887!2m2!1d8.0788334!2d51.5720021!3e0?entry=ttu&g_ep=EgoyMDI2MDQwOC4wIKXMDSoASAFQAw%3D%3D',
+        'location' => 'Hotel Maifeld, Werl',
+        'maps_url' => 'https://www.google.com/maps/dir/?api=1&destination=Maifeld+Sport-+und+Tagungshotel%2C+Hammer+Landstra%C3%9Fe+4%2C+59457+Werl',
         // Minuten vor Anpfiff, zu denen man sich trifft.
         'meet_minutes_before' => 15,
         // Stunden vor Anpfiff, bis zu denen An-/Abmeldung möglich ist.
